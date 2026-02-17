@@ -56,6 +56,14 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 		}
 
 		c.Set("user_id", uint(userID))
+
+		if officeID, ok := claims["office_id"].(float64); ok {
+			c.Set("office_id", uint(officeID))
+		}
+		if officeName, ok := claims["office_name"].(string); ok {
+			c.Set("office_name", officeName)
+		}
+
 		c.Next()
 	}
 }

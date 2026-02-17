@@ -1,0 +1,3778 @@
+basePath: /
+definitions:
+  agreement.Agreement:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      notary:
+        $ref: '#/definitions/notary.Notary'
+      notary_id:
+        type: integer
+      number_of_copies:
+        type: integer
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      pricing:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  agreement.CreateRequest:
+    properties:
+      content:
+        type: string
+      date:
+        description: YYYY-MM-DD
+        type: string
+      name:
+        maxLength: 200
+        type: string
+      notary_id:
+        type: integer
+      number_of_copies:
+        minimum: 1
+        type: integer
+      office_id:
+        type: integer
+      pricing:
+        type: number
+    required:
+    - content
+    - date
+    - name
+    - notary_id
+    - number_of_copies
+    - office_id
+    type: object
+  agreement.UpdateRequest:
+    properties:
+      content:
+        type: string
+      date:
+        type: string
+      name:
+        maxLength: 200
+        type: string
+      notary_id:
+        type: integer
+      number_of_copies:
+        minimum: 1
+        type: integer
+      office_id:
+        type: integer
+      pricing:
+        type: number
+    type: object
+  appfeature.AppFeature:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        description: active | inactive
+        type: string
+      updated_at:
+        type: string
+    type: object
+  appfeature.CreateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+    required:
+    - name
+    type: object
+  appfeature.UpdateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+    type: object
+  auth.AuthResponse:
+    properties:
+      token:
+        type: string
+      user:
+        $ref: '#/definitions/auth.UserInfo'
+    type: object
+  auth.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  auth.RegisterRequest:
+    properties:
+      first_name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      last_name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      office_id:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      role:
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+      username:
+        maxLength: 100
+        minLength: 3
+        type: string
+    required:
+    - first_name
+    - last_name
+    - password
+    - username
+    type: object
+  auth.UpdateUserRequest:
+    properties:
+      first_name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      last_name:
+        maxLength: 100
+        minLength: 2
+        type: string
+      office_id:
+        type: integer
+      password:
+        minLength: 6
+        type: string
+      role:
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+      username:
+        maxLength: 100
+        minLength: 3
+        type: string
+    type: object
+  auth.User:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      first_name:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      role:
+        type: string
+      status:
+        description: active | inactive
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  auth.UserInfo:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      office_id:
+        type: integer
+      role:
+        type: string
+      status:
+        type: string
+      username:
+        type: string
+    type: object
+  checklistnote.ChecklistNote:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  checklistnote.CreateRequest:
+    properties:
+      name:
+        type: string
+      office_id:
+        type: integer
+    required:
+    - name
+    - office_id
+    type: object
+  checklistnote.UpdateRequest:
+    properties:
+      name:
+        type: string
+      office_id:
+        type: integer
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  invoice.CreateRequest:
+    properties:
+      client_name:
+        maxLength: 150
+        type: string
+      date:
+        description: YYYY-MM-DD
+        type: string
+      notary_id:
+        type: integer
+      notary_status:
+        enum:
+        - pending
+        - signed_unpaid
+        - signed_paid
+        type: string
+      note:
+        type: string
+      ref_no:
+        maxLength: 50
+        type: string
+      services:
+        items:
+          $ref: '#/definitions/invoice.CreateServiceItem'
+        minItems: 1
+        type: array
+      upi:
+        maxLength: 40
+        type: string
+    required:
+    - client_name
+    - date
+    - notary_id
+    - services
+    - upi
+    type: object
+  invoice.CreateServiceItem:
+    properties:
+      copy:
+        minimum: 1
+        type: integer
+      name:
+        maxLength: 100
+        type: string
+      office_service_id:
+        type: integer
+      payment_status:
+        enum:
+        - paid
+        - unpaid
+        type: string
+      price:
+        minimum: 0
+        type: number
+    required:
+    - copy
+    - name
+    - office_service_id
+    - price
+    type: object
+  invoice.Invoice:
+    properties:
+      client_name:
+        type: string
+      created_at:
+        type: string
+      date:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      notary:
+        $ref: '#/definitions/notary.Notary'
+      notary_id:
+        type: integer
+      notary_status:
+        description: pending | signed_unpaid | signed_paid
+        type: string
+      note:
+        type: string
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      paid_amount:
+        type: number
+      ref_no:
+        type: string
+      services:
+        items:
+          $ref: '#/definitions/invoice.InvoiceService'
+        type: array
+      total_amount:
+        description: Computed at runtime
+        type: number
+      unpaid_amount:
+        type: number
+      updated_at:
+        type: string
+      upi:
+        type: string
+      user:
+        $ref: '#/definitions/auth.User'
+      user_id:
+        type: integer
+      user_status:
+        type: string
+    type: object
+  invoice.InvoiceService:
+    properties:
+      copy:
+        type: integer
+      id:
+        type: integer
+      invoice_id:
+        type: integer
+      name:
+        type: string
+      office_service_id:
+        type: integer
+      payment_status:
+        description: paid | unpaid
+        type: string
+      price:
+        type: number
+    type: object
+  invoice.UpdateRequest:
+    properties:
+      client_name:
+        maxLength: 150
+        type: string
+      date:
+        type: string
+      notary_id:
+        type: integer
+      notary_status:
+        enum:
+        - pending
+        - unpaid
+        - paid
+        type: string
+      note:
+        type: string
+      ref_no:
+        maxLength: 50
+        type: string
+      upi:
+        maxLength: 40
+        type: string
+    type: object
+  invoice.UpdateServiceStatusRequest:
+    properties:
+      payment_status:
+        enum:
+        - paid
+        - unpaid
+        type: string
+    required:
+    - payment_status
+    type: object
+  invoice.UserServiceSummary:
+    properties:
+      name:
+        type: string
+      office_service_id:
+        type: integer
+      paid_amount:
+        type: number
+      total_amount:
+        type: number
+      unpaid_amount:
+        type: number
+    type: object
+  invoice.UserSummary:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      paid_amount:
+        type: number
+      services:
+        items:
+          $ref: '#/definitions/invoice.UserServiceSummary'
+        type: array
+      total_amount:
+        type: number
+      unpaid_amount:
+        type: number
+      user_id:
+        type: integer
+      username:
+        type: string
+    type: object
+  nlachecklist.ChecklistDossier:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      nla_checklist_id:
+        type: integer
+      status:
+        description: yes | no | no_needed
+        type: string
+    type: object
+  nlachecklist.CreateRequest:
+    properties:
+      buyer_1_names:
+        maxLength: 200
+        type: string
+      buyer_2_names:
+        maxLength: 200
+        type: string
+      date:
+        description: YYYY-MM-DD
+        type: string
+      dossiers:
+        items:
+          $ref: '#/definitions/nlachecklist.DossierItem'
+        minItems: 1
+        type: array
+      seller_1_names:
+        maxLength: 200
+        type: string
+      seller_2_names:
+        maxLength: 200
+        type: string
+      upi:
+        maxLength: 40
+        type: string
+    required:
+    - buyer_1_names
+    - date
+    - dossiers
+    - seller_1_names
+    - upi
+    type: object
+  nlachecklist.DossierItem:
+    properties:
+      name:
+        maxLength: 200
+        type: string
+      status:
+        enum:
+        - "yes"
+        - "no"
+        - no_needed
+        type: string
+    required:
+    - name
+    - status
+    type: object
+  nlachecklist.NlaChecklist:
+    properties:
+      buyer_1_names:
+        type: string
+      buyer_2_names:
+        type: string
+      created_at:
+        type: string
+      date:
+        type: string
+      dossiers:
+        items:
+          $ref: '#/definitions/nlachecklist.ChecklistDossier'
+        type: array
+      id:
+        type: integer
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      seller_1_names:
+        type: string
+      seller_2_names:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      upi:
+        type: string
+      user:
+        $ref: '#/definitions/auth.User'
+      user_id:
+        type: integer
+    type: object
+  nlachecklist.UpdateRequest:
+    properties:
+      buyer_1_names:
+        maxLength: 200
+        type: string
+      buyer_2_names:
+        maxLength: 200
+        type: string
+      date:
+        type: string
+      dossiers:
+        items:
+          $ref: '#/definitions/nlachecklist.DossierItem'
+        type: array
+      seller_1_names:
+        maxLength: 200
+        type: string
+      seller_2_names:
+        maxLength: 200
+        type: string
+      upi:
+        maxLength: 40
+        type: string
+    type: object
+  nlafile.CreateRequest:
+    properties:
+      buyer:
+        maxLength: 200
+        type: string
+      comment:
+        type: string
+      date:
+        description: YYYY-MM-DD
+        type: string
+      office_id:
+        type: integer
+      office_service_id:
+        type: integer
+      pending_period_days:
+        minimum: 1
+        type: integer
+      seller:
+        maxLength: 200
+        type: string
+      upi:
+        maxLength: 100
+        type: string
+    required:
+    - buyer
+    - date
+    - office_id
+    - office_service_id
+    - pending_period_days
+    - seller
+    - upi
+    type: object
+  nlafile.NlaFile:
+    properties:
+      approved_at:
+        type: string
+      buyer:
+        type: string
+      comment:
+        type: string
+      created_at:
+        type: string
+      date:
+        type: string
+      id:
+        type: integer
+      nla_at:
+        type: string
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      office_service:
+        $ref: '#/definitions/officeservice.OfficeService'
+      office_service_id:
+        type: integer
+      pending_at:
+        type: string
+      pending_period_days:
+        type: integer
+      rejected_at:
+        type: string
+      request_action_at:
+        type: string
+      scanned_at:
+        type: string
+      scanning_at:
+        type: string
+      seller:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+      upi:
+        type: string
+      user:
+        $ref: '#/definitions/auth.User'
+      user_id:
+        type: integer
+    type: object
+  nlafile.StatusCount:
+    properties:
+      count:
+        type: integer
+      status:
+        type: string
+    type: object
+  nlafile.UpdateRequest:
+    properties:
+      buyer:
+        maxLength: 200
+        type: string
+      comment:
+        type: string
+      date:
+        type: string
+      office_id:
+        type: integer
+      office_service_id:
+        type: integer
+      pending_period_days:
+        minimum: 1
+        type: integer
+      seller:
+        maxLength: 200
+        type: string
+      upi:
+        maxLength: 100
+        type: string
+    type: object
+  notary.CreateRequest:
+    properties:
+      names:
+        maxLength: 200
+        type: string
+      office_id:
+        type: integer
+      phone:
+        maxLength: 20
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+    required:
+    - names
+    - office_id
+    type: object
+  notary.Notary:
+    properties:
+      created_at:
+        type: string
+      deleted:
+        description: 0 = active, 1 = deleted
+        type: integer
+      id:
+        type: integer
+      names:
+        type: string
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      phone:
+        type: string
+      status:
+        description: active | inactive
+        type: string
+      updated_at:
+        type: string
+    type: object
+  notary.UpdateRequest:
+    properties:
+      names:
+        maxLength: 200
+        type: string
+      office_id:
+        type: integer
+      phone:
+        maxLength: 20
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+    type: object
+  office.CreateRequest:
+    properties:
+      location:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        type: string
+      payment_type:
+        enum:
+        - subscription
+        - full_paid
+        type: string
+      phone:
+        maxLength: 20
+        type: string
+      pricing:
+        type: number
+      scanner_id:
+        maxLength: 100
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+      subscription_end_date:
+        type: string
+    required:
+    - name
+    - payment_type
+    type: object
+  office.Office:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      name:
+        type: string
+      payment_type:
+        description: subscription | full_paid
+        type: string
+      phone:
+        type: string
+      pricing:
+        type: number
+      scanner_id:
+        type: string
+      status:
+        description: active | inactive
+        type: string
+      subscription_end_date:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  office.UpdateRequest:
+    properties:
+      location:
+        maxLength: 255
+        type: string
+      name:
+        maxLength: 100
+        type: string
+      payment_type:
+        enum:
+        - subscription
+        - full_paid
+        type: string
+      phone:
+        maxLength: 20
+        type: string
+      pricing:
+        type: number
+      scanner_id:
+        maxLength: 100
+        type: string
+      status:
+        enum:
+        - active
+        - inactive
+        type: string
+      subscription_end_date:
+        type: string
+    type: object
+  officefeature.AssignRequest:
+    properties:
+      app_feature_ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+      office_id:
+        type: integer
+    required:
+    - app_feature_ids
+    - office_id
+    type: object
+  officefeature.OfficeFeatureResponse:
+    properties:
+      app_feature_id:
+        type: integer
+      app_feature_name:
+        type: string
+      id:
+        type: integer
+      office_id:
+        type: integer
+      status:
+        type: string
+    type: object
+  officefeature.RevokeRequest:
+    properties:
+      app_feature_ids:
+        items:
+          type: integer
+        minItems: 1
+        type: array
+      office_id:
+        type: integer
+    required:
+    - app_feature_ids
+    - office_id
+    type: object
+  officeform.CreateRequest:
+    properties:
+      content:
+        type: string
+      office_id:
+        type: integer
+      title:
+        maxLength: 200
+        type: string
+    required:
+    - content
+    - office_id
+    - title
+    type: object
+  officeform.OfficeForm:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      office_id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  officeform.UpdateRequest:
+    properties:
+      content:
+        type: string
+      office_id:
+        type: integer
+      title:
+        maxLength: 200
+        type: string
+    type: object
+  officepayment.CreateRequest:
+    properties:
+      comment:
+        type: string
+      office_id:
+        type: integer
+      paid_amount:
+        minimum: 0
+        type: number
+      paid_month:
+        minimum: 1
+        type: integer
+      payment_date:
+        description: YYYY-MM-DD
+        type: string
+    required:
+    - office_id
+    - paid_amount
+    - paid_month
+    - payment_date
+    type: object
+  officepayment.OfficePayment:
+    properties:
+      comment:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      end_date:
+        type: string
+      id:
+        type: integer
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      paid_amount:
+        type: number
+      paid_month:
+        type: integer
+      payment_date:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  officepayment.UpdateRequest:
+    properties:
+      comment:
+        type: string
+      office_id:
+        type: integer
+      paid_amount:
+        minimum: 0
+        type: number
+      paid_month:
+        minimum: 1
+        type: integer
+      payment_date:
+        type: string
+    type: object
+  officeservice.CreateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+      number_of_copies:
+        minimum: 1
+        type: integer
+      office_id:
+        type: integer
+      pricing:
+        type: number
+    required:
+    - name
+    - number_of_copies
+    - office_id
+    type: object
+  officeservice.OfficeService:
+    properties:
+      created_at:
+        type: string
+      deleted:
+        description: 0 = active, 1 = deleted
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      number_of_copies:
+        type: integer
+      office:
+        $ref: '#/definitions/office.Office'
+      office_id:
+        type: integer
+      pricing:
+        type: number
+      updated_at:
+        type: string
+    type: object
+  officeservice.UpdateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+      number_of_copies:
+        minimum: 1
+        type: integer
+      office_id:
+        type: integer
+      pricing:
+        type: number
+    type: object
+  permission.CreateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+    required:
+    - name
+    type: object
+  permission.Permission:
+    properties:
+      created_at:
+        type: string
+      deleted:
+        description: 0 = active, 1 = deleted
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  permission.UpdateRequest:
+    properties:
+      name:
+        maxLength: 100
+        type: string
+    type: object
+  userpermission.AssignRequest:
+    properties:
+      permission_id:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - permission_id
+    - user_id
+    type: object
+  userpermission.UserPermissionResponse:
+    properties:
+      id:
+        type: integer
+      permission_id:
+        type: integer
+      permission_name:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  utils.APIResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  utils.PaginatedResponse:
+    properties:
+      items: {}
+      page:
+        type: integer
+      per_page:
+        type: integer
+      total:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: NFS API Server
+  title: NFS API
+  version: "1.0"
+paths:
+  /api/agreements:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      - description: Filter by notary ID
+        in: query
+        name: notary_id
+        type: integer
+      - description: Filter by name
+        in: query
+        name: name
+        type: string
+      - description: Filter by office ID
+        in: query
+        name: office_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all agreements
+      tags:
+      - Agreements
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/agreement.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/agreement.Agreement'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new agreement
+      tags:
+      - Agreements
+  /api/agreements/{id}:
+    delete:
+      parameters:
+      - description: Agreement ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an agreement
+      tags:
+      - Agreements
+    get:
+      parameters:
+      - description: Agreement ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/agreement.Agreement'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get agreement by ID
+      tags:
+      - Agreements
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Agreement ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/agreement.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/agreement.Agreement'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an agreement
+      tags:
+      - Agreements
+  /api/app-features:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all app features
+      tags:
+      - App Features
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/appfeature.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/appfeature.AppFeature'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new app feature
+      tags:
+      - App Features
+  /api/app-features/{id}:
+    delete:
+      parameters:
+      - description: App Feature ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an app feature
+      tags:
+      - App Features
+    get:
+      parameters:
+      - description: App Feature ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/appfeature.AppFeature'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get app feature by ID
+      tags:
+      - App Features
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: App Feature ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/appfeature.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/appfeature.AppFeature'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an app feature
+      tags:
+      - App Features
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Login payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Login
+      tags:
+      - Auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Register payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Register a new user
+      tags:
+      - Auth
+  /api/checklist-notes:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter by office ID
+        in: query
+        name: office_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all checklist notes
+      tags:
+      - Checklist Notes
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/checklistnote.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/checklistnote.ChecklistNote'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new checklist note
+      tags:
+      - Checklist Notes
+  /api/checklist-notes/{id}:
+    delete:
+      parameters:
+      - description: Checklist Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete a checklist note
+      tags:
+      - Checklist Notes
+    get:
+      parameters:
+      - description: Checklist Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/checklistnote.ChecklistNote'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get checklist note by ID
+      tags:
+      - Checklist Notes
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Checklist Note ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/checklistnote.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/checklistnote.ChecklistNote'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update a checklist note
+      tags:
+      - Checklist Notes
+  /api/invoices:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      - description: Filter by user ID
+        in: query
+        name: user_id
+        type: integer
+      - description: Filter by service IDs (comma-separated)
+        in: query
+        name: service_ids
+        type: string
+      - description: Filter by notary ID
+        in: query
+        name: notary_id
+        type: integer
+      - description: Filter by user status (paid/unpaid)
+        in: query
+        name: user_status
+        type: string
+      - description: Filter by notary status (pending/signed_unpaid/signed_paid)
+        in: query
+        name: notary_status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all invoices
+      tags:
+      - Invoices
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/invoice.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/invoice.Invoice'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new invoice
+      tags:
+      - Invoices
+  /api/invoices/{id}:
+    delete:
+      parameters:
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an invoice
+      tags:
+      - Invoices
+    get:
+      parameters:
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/invoice.Invoice'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get invoice by ID
+      tags:
+      - Invoices
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/invoice.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/invoice.Invoice'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an invoice
+      tags:
+      - Invoices
+  /api/invoices/{id}/services/{serviceId}/status:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Invoice Service ID
+        in: path
+        name: serviceId
+        required: true
+        type: integer
+      - description: Status payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/invoice.UpdateServiceStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/invoice.Invoice'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update invoice service payment status
+      tags:
+      - Invoices
+  /api/invoices/user-summaries:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      - description: Filter by notary ID
+        in: query
+        name: notary_id
+        type: integer
+      - description: Filter by notary status
+        in: query
+        name: notary_status
+        type: string
+      - description: Filter by user status (paid/unpaid)
+        in: query
+        name: user_status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/invoice.UserSummary'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get invoice summaries grouped by user
+      tags:
+      - Invoices
+  /api/nla-checklists:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      - description: Filter by status (completed/uncompleted)
+        in: query
+        name: status
+        type: string
+      - description: Filter by office ID
+        in: query
+        name: office_id
+        type: integer
+      - description: Filter by UPI
+        in: query
+        name: upi
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all NLA checklists
+      tags:
+      - NLA Checklists
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/nlachecklist.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlachecklist.NlaChecklist'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new NLA checklist
+      tags:
+      - NLA Checklists
+  /api/nla-checklists/{id}:
+    delete:
+      parameters:
+      - description: Checklist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an NLA checklist
+      tags:
+      - NLA Checklists
+    get:
+      parameters:
+      - description: Checklist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlachecklist.NlaChecklist'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get NLA checklist by ID
+      tags:
+      - NLA Checklists
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Checklist ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/nlachecklist.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlachecklist.NlaChecklist'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an NLA checklist
+      tags:
+      - NLA Checklists
+  /api/nla-files:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter by UPI
+        in: query
+        name: upi
+        type: string
+      - description: Filter by seller/buyer name
+        in: query
+        name: name
+        type: string
+      - description: Filter by office ID
+        in: query
+        name: office_id
+        type: integer
+      - description: Filter by status
+        in: query
+        name: status
+        type: string
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all NLA files
+      tags:
+      - NLA Files
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/nlafile.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new NLA file
+      tags:
+      - NLA Files
+  /api/nla-files/{id}:
+    delete:
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an NLA file
+      tags:
+      - NLA Files
+    get:
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get NLA file by ID
+      tags:
+      - NLA Files
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/nlafile.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an NLA file
+      tags:
+      - NLA Files
+  /api/nla-files/{id}/approve:
+    patch:
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Approve an NLA file
+      tags:
+      - NLA Files
+  /api/nla-files/{id}/next:
+    patch:
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Move NLA file to next status
+      tags:
+      - NLA Files
+  /api/nla-files/{id}/reject:
+    patch:
+      parameters:
+      - description: NLA File ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/nlafile.NlaFile'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Reject an NLA file
+      tags:
+      - NLA Files
+  /api/nla-files/counts:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/nlafile.StatusCount'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get NLA file status counts
+      tags:
+      - NLA Files
+  /api/notaries:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all notaries
+      tags:
+      - Notaries
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/notary.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/notary.Notary'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new notary
+      tags:
+      - Notaries
+  /api/notaries/{id}:
+    delete:
+      parameters:
+      - description: Notary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete a notary
+      tags:
+      - Notaries
+    get:
+      parameters:
+      - description: Notary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/notary.Notary'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get notary by ID
+      tags:
+      - Notaries
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Notary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/notary.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/notary.Notary'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update a notary
+      tags:
+      - Notaries
+  /api/notaries/office/{officeId}:
+    get:
+      parameters:
+      - description: Office ID
+        in: path
+        name: officeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/notary.Notary'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get notaries by office ID
+      tags:
+      - Notaries
+  /api/office-features/assign:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assign payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officefeature.AssignRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Assign features to an office
+      tags:
+      - Office Features
+  /api/office-features/office/{officeId}:
+    get:
+      parameters:
+      - description: Office ID
+        in: path
+        name: officeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/officefeature.OfficeFeatureResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get features assigned to an office
+      tags:
+      - Office Features
+  /api/office-features/revoke:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Revoke payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officefeature.RevokeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Revoke features from an office
+      tags:
+      - Office Features
+  /api/office-forms:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all office forms
+      tags:
+      - Office Forms
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officeform.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeform.OfficeForm'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new office form
+      tags:
+      - Office Forms
+  /api/office-forms/{id}:
+    delete:
+      parameters:
+      - description: Office Form ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an office form
+      tags:
+      - Office Forms
+    get:
+      parameters:
+      - description: Office Form ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeform.OfficeForm'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office form by ID
+      tags:
+      - Office Forms
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Office Form ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officeform.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeform.OfficeForm'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an office form
+      tags:
+      - Office Forms
+  /api/office-forms/office/{officeId}:
+    get:
+      parameters:
+      - description: Office ID
+        in: path
+        name: officeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/officeform.OfficeForm'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office forms by office ID
+      tags:
+      - Office Forms
+  /api/office-payments:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      - description: Filter by office ID
+        in: query
+        name: office_id
+        type: integer
+      - description: Filter from date (YYYY-MM-DD)
+        in: query
+        name: date_from
+        type: string
+      - description: Filter to date (YYYY-MM-DD)
+        in: query
+        name: date_to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all office payments
+      tags:
+      - Office Payments
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officepayment.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officepayment.OfficePayment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new office payment
+      tags:
+      - Office Payments
+  /api/office-payments/{id}:
+    delete:
+      parameters:
+      - description: Office Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an office payment
+      tags:
+      - Office Payments
+    get:
+      parameters:
+      - description: Office Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officepayment.OfficePayment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office payment by ID
+      tags:
+      - Office Payments
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Office Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officepayment.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officepayment.OfficePayment'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an office payment
+      tags:
+      - Office Payments
+  /api/office-services:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all office services
+      tags:
+      - Office Services
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officeservice.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeservice.OfficeService'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new office service
+      tags:
+      - Office Services
+  /api/office-services/{id}:
+    delete:
+      parameters:
+      - description: Office Service ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an office service
+      tags:
+      - Office Services
+    get:
+      parameters:
+      - description: Office Service ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeservice.OfficeService'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office service by ID
+      tags:
+      - Office Services
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Office Service ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/officeservice.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/officeservice.OfficeService'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an office service
+      tags:
+      - Office Services
+  /api/office-services/office/{officeId}:
+    get:
+      parameters:
+      - description: Office ID
+        in: path
+        name: officeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/officeservice.OfficeService'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office services by office ID
+      tags:
+      - Office Services
+  /api/offices:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all offices
+      tags:
+      - Offices
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/office.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/office.Office'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new office
+      tags:
+      - Offices
+  /api/offices/{id}:
+    delete:
+      parameters:
+      - description: Office ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete an office
+      tags:
+      - Offices
+    get:
+      parameters:
+      - description: Office ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/office.Office'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get office by ID
+      tags:
+      - Offices
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Office ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/office.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/office.Office'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update an office
+      tags:
+      - Offices
+  /api/permissions:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all permissions
+      tags:
+      - Permissions
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/permission.CreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/permission.Permission'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new permission
+      tags:
+      - Permissions
+  /api/permissions/{id}:
+    delete:
+      parameters:
+      - description: Permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete a permission
+      tags:
+      - Permissions
+    get:
+      parameters:
+      - description: Permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/permission.Permission'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get permission by ID
+      tags:
+      - Permissions
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/permission.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/permission.Permission'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update a permission
+      tags:
+      - Permissions
+  /api/user-permissions:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Assign payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userpermission.AssignRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/userpermission.UserPermissionResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Assign a permission to a user
+      tags:
+      - User Permissions
+  /api/user-permissions/{id}:
+    delete:
+      parameters:
+      - description: User Permission ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Revoke a user permission
+      tags:
+      - User Permissions
+  /api/user-permissions/user/{userId}:
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/userpermission.UserPermissionResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get permissions by user ID
+      tags:
+      - User Permissions
+  /api/user-permissions/user/{userId}/assign-many:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: Permission IDs
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            permission_ids:
+              items:
+                type: integer
+              type: array
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Assign multiple permissions to a user
+      tags:
+      - User Permissions
+  /api/user-permissions/user/{userId}/revoke-many:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: userId
+        required: true
+        type: integer
+      - description: Permission IDs
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            permission_ids:
+              items:
+                type: integer
+              type: array
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Revoke multiple permissions from a user
+      tags:
+      - User Permissions
+  /api/users:
+    get:
+      parameters:
+      - default: 1
+        description: Page number
+        in: query
+        name: page
+        type: integer
+      - default: 50
+        description: Items per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/utils.PaginatedResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: List all users
+      tags:
+      - Users
+  /api/users/{id}:
+    delete:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Delete a user
+      tags:
+      - Users
+    get:
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get user by ID
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.APIResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/auth.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Update a user
+      tags:
+      - Users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -24,9 +24,9 @@ func Load() *Config {
 		DBPort:     getEnv("DB_PORT", "3306"),
 		DBUser:     getEnv("DB_USER", "root"),
 		DBPassword: getEnv("DB_PASSWORD", ""),
-		DBName:     getEnv("DB_NAME", "nfs_db"),
-		JWTSecret:  getEnv("JWT_SECRET", "change-me-in-production"),
-		Port:       getEnv("PORT", "8080"),
+		DBName:     getEnv("DB_NAME", "nfs_share_db_v2"),
+		JWTSecret:  getEnv("JWT_SECRET", "change-me-in-production!"),
+		Port:       getEnv("PORT", "5002"),
 	}
 }
 

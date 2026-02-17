@@ -1,4 +1,4 @@
-package office
+package appfeature
 
 import (
 	"net/http"
@@ -18,14 +18,14 @@ func NewHandler(service *Service) *Handler {
 }
 
 // Create godoc
-// @Summary      Create a new office
-// @Tags         Offices
+// @Summary      Create a new app feature
+// @Tags         App Features
 // @Accept       json
 // @Produce      json
 // @Param        body  body      CreateRequest  true  "Create payload"
-// @Success      201   {object}  utils.APIResponse{data=Office}
+// @Success      201   {object}  utils.APIResponse{data=AppFeature}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices [post]
+// @Router       /api/app-features [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -33,24 +33,24 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.Create(req)
+	feature, err := h.service.Create(req)
 	if err != nil {
 		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusCreated, office)
+	utils.Success(c, http.StatusCreated, feature)
 }
 
 // GetAll godoc
-// @Summary      List all offices
-// @Tags         Offices
+// @Summary      List all app features
+// @Tags         App Features
 // @Produce      json
 // @Param        page      query     int  false  "Page number"  default(1)
 // @Param        per_page  query     int  false  "Items per page"  default(50)
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/offices [get]
+// @Router       /api/app-features [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -58,24 +58,24 @@ func (h *Handler) GetAll(c *gin.Context) {
 		return
 	}
 
-	offices, err := h.service.GetAll(p)
+	features, err := h.service.GetAll(p)
 	if err != nil {
 		utils.Error(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, offices)
+	utils.Success(c, http.StatusOK, features)
 }
 
 // GetByID godoc
-// @Summary      Get office by ID
-// @Tags         Offices
+// @Summary      Get app feature by ID
+// @Tags         App Features
 // @Produce      json
-// @Param        id   path      int  true  "Office ID"
-// @Success      200  {object}  utils.APIResponse{data=Office}
+// @Param        id   path      int  true  "App Feature ID"
+// @Success      200  {object}  utils.APIResponse{data=AppFeature}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [get]
+// @Router       /api/app-features/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -83,25 +83,25 @@ func (h *Handler) GetByID(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.GetByID(uint(id))
+	feature, err := h.service.GetByID(uint(id))
 	if err != nil {
 		utils.Error(c, http.StatusNotFound, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, office)
+	utils.Success(c, http.StatusOK, feature)
 }
 
 // Update godoc
-// @Summary      Update an office
-// @Tags         Offices
+// @Summary      Update an app feature
+// @Tags         App Features
 // @Accept       json
 // @Produce      json
-// @Param        id    path      int            true  "Office ID"
+// @Param        id    path      int            true  "App Feature ID"
 // @Param        body  body      UpdateRequest  true  "Update payload"
-// @Success      200   {object}  utils.APIResponse{data=Office}
+// @Success      200   {object}  utils.APIResponse{data=AppFeature}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices/{id} [put]
+// @Router       /api/app-features/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -115,24 +115,24 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.Update(uint(id), req)
+	feature, err := h.service.Update(uint(id), req)
 	if err != nil {
 		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, office)
+	utils.Success(c, http.StatusOK, feature)
 }
 
 // Delete godoc
-// @Summary      Delete an office
-// @Tags         Offices
+// @Summary      Delete an app feature
+// @Tags         App Features
 // @Produce      json
-// @Param        id   path      int  true  "Office ID"
+// @Param        id   path      int  true  "App Feature ID"
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [delete]
+// @Router       /api/app-features/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -145,16 +145,16 @@ func (h *Handler) Delete(c *gin.Context) {
 		return
 	}
 
-	utils.Success(c, http.StatusOK, gin.H{"message": "office deleted"})
+	utils.Success(c, http.StatusOK, gin.H{"message": "app feature deleted"})
 }
 
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	offices := r.Group("/offices")
+	features := r.Group("/app-features")
 	{
-		offices.POST("", h.Create)
-		offices.GET("", h.GetAll)
-		offices.GET("/:id", h.GetByID)
-		offices.PUT("/:id", h.Update)
-		offices.DELETE("/:id", h.Delete)
+		features.POST("", h.Create)
+		features.GET("", h.GetAll)
+		features.GET("/:id", h.GetByID)
+		features.PUT("/:id", h.Update)
+		features.DELETE("/:id", h.Delete)
 	}
 }

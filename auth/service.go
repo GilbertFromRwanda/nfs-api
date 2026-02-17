@@ -51,7 +51,7 @@ func (s *Service) Register(req RegisterRequest) (*AuthResponse, error) {
 		return nil, errors.New("failed to create user")
 	}
 
-	token, err := s.generateToken(user.ID)
+	token, err := s.generateToken(user)
 	if err != nil {
 		return nil, errors.New("failed to generate token")
 	}
@@ -64,7 +64,7 @@ func (s *Service) Register(req RegisterRequest) (*AuthResponse, error) {
 
 func (s *Service) Login(req LoginRequest) (*AuthResponse, error) {
 	var user User
-	if err := database.DB.Where("username = ?", req.Username).First(&user).Error; err != nil {
+	if err := database.DB.Preload("Office").Where("username = ?", req.Username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("invalid username or password")
 		}
@@ -78,8 +78,11 @@ func (s *Service) Login(req LoginRequest) (*AuthResponse, error) {
 	if user.Status != "active" {
 		return nil, errors.New("account is inactive")
 	}
+	if user.Office != nil && user.Office.Status != "active" {
+		return nil, errors.New("associated office is inactive")
+	}
 
-	token, err := s.generateToken(user.ID)
+	token, err := s.generateToken(user)
 	if err != nil {
 		return nil, errors.New("failed to generate token")
 	}
@@ -178,11 +181,24 @@ func (s *Service) Delete(id uint) error {
 	return nil
 }
 
-func (s *Service) generateToken(userID uint) (string, error) {
+func (s *Service) generateToken(user User) (string, error) {
 	claims := jwt.MapClaims{
-		"user_id": userID,
+		"user_id": user.ID,
 		"exp":     time.Now().Add(24 * time.Hour).Unix(),
 		"iat":     time.Now().Unix(),
+	}
+
+	if user.OfficeID != nil {
+		claims["office_id"] = *user.OfficeID
+		// Load office name if not already preloaded
+		if user.Office != nil {
+			claims["office_name"] = user.Office.Name
+		} else {
+			var office struct{ Name string }
+			if err := database.DB.Table("offices").Select("name").Where("id = ?", *user.OfficeID).Scan(&office).Error; err == nil {
+				claims["office_name"] = office.Name
+			}
+		}
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
