@@ -37,7 +37,7 @@ func NewService() *Service {
 	return &Service{}
 }
 
-func (s *Service) Create(req CreateRequest) (*NlaFile, error) {
+func (s *Service) Create(req CreateRequest, userID uint) (*NlaFile, error) {
 	date, err := time.Parse("2006-01-02", req.Date)
 	if err != nil {
 		return nil, errors.New("invalid date format, use YYYY-MM-DD")
@@ -52,6 +52,8 @@ func (s *Service) Create(req CreateRequest) (*NlaFile, error) {
 		PendingPeriodDays: req.PendingPeriodDays,
 		UPI:              req.UPI,
 		OfficeID:         req.OfficeID,
+		UserID:           userID,
+		Comment:          req.Comment,
 		Status:           "pending",
 		PendingAt:        &now,
 	}
@@ -101,6 +103,7 @@ func (s *Service) GetAll(filter FilterRequest) (*utils.PaginatedResponse, error)
 	if err := query.
 		Preload("OfficeService", func(db *gorm.DB) *gorm.DB { return db.Select("id, name, pricing") }).
 		Preload("Office", func(db *gorm.DB) *gorm.DB { return db.Select("id, name, location, status") }).
+		Preload("User", func(db *gorm.DB) *gorm.DB { return db.Select("id, first_name, last_name, username") }).
 		Scopes(utils.Paginate(filter.PaginationRequest)).
 		Order("created_at DESC").
 		Find(&files).Error; err != nil {
@@ -116,6 +119,7 @@ func (s *Service) GetByID(id uint) (*NlaFile, error) {
 	if err := database.DB.
 		Preload("OfficeService", func(db *gorm.DB) *gorm.DB { return db.Select("id, name, pricing") }).
 		Preload("Office", func(db *gorm.DB) *gorm.DB { return db.Select("id, name, location, status") }).
+		Preload("User", func(db *gorm.DB) *gorm.DB { return db.Select("id, first_name, last_name, username") }).
 		First(&nla, id).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("nla file not found")
@@ -156,6 +160,9 @@ func (s *Service) Update(id uint, req UpdateRequest) (*NlaFile, error) {
 	}
 	if req.OfficeID != nil {
 		updates["office_id"] = *req.OfficeID
+	}
+	if req.Comment != nil {
+		updates["comment"] = *req.Comment
 	}
 
 	if len(updates) > 0 {

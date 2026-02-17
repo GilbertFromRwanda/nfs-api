@@ -17,6 +17,16 @@ func NewHandler(service *Service) *Handler {
 	return &Handler{service: service}
 }
 
+// Register godoc
+// @Summary      Register a new user
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      RegisterRequest  true  "Register payload"
+// @Success      201   {object}  utils.APIResponse{data=AuthResponse}
+// @Failure      400   {object}  utils.APIResponse
+// @Failure      409   {object}  utils.APIResponse
+// @Router       /api/auth/register [post]
 func (h *Handler) Register(c *gin.Context) {
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -33,6 +43,16 @@ func (h *Handler) Register(c *gin.Context) {
 	utils.Success(c, http.StatusCreated, res)
 }
 
+// Login godoc
+// @Summary      Login
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      LoginRequest  true  "Login payload"
+// @Success      200   {object}  utils.APIResponse{data=AuthResponse}
+// @Failure      400   {object}  utils.APIResponse
+// @Failure      401   {object}  utils.APIResponse
+// @Router       /api/auth/login [post]
 func (h *Handler) Login(c *gin.Context) {
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -49,6 +69,15 @@ func (h *Handler) Login(c *gin.Context) {
 	utils.Success(c, http.StatusOK, res)
 }
 
+// GetAll godoc
+// @Summary      List all users
+// @Tags         Users
+// @Produce      json
+// @Param        page      query     int  false  "Page number"  default(1)
+// @Param        per_page  query     int  false  "Items per page"  default(50)
+// @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
+// @Failure      400  {object}  utils.APIResponse
+// @Router       /api/users [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -65,6 +94,15 @@ func (h *Handler) GetAll(c *gin.Context) {
 	utils.Success(c, http.StatusOK, users)
 }
 
+// GetByID godoc
+// @Summary      Get user by ID
+// @Tags         Users
+// @Produce      json
+// @Param        id   path      int  true  "User ID"
+// @Success      200  {object}  utils.APIResponse{data=User}
+// @Failure      400  {object}  utils.APIResponse
+// @Failure      404  {object}  utils.APIResponse
+// @Router       /api/users/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -81,6 +119,16 @@ func (h *Handler) GetByID(c *gin.Context) {
 	utils.Success(c, http.StatusOK, user)
 }
 
+// Update godoc
+// @Summary      Update a user
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param        id    path      int               true  "User ID"
+// @Param        body  body      UpdateUserRequest  true  "Update payload"
+// @Success      200   {object}  utils.APIResponse{data=User}
+// @Failure      400   {object}  utils.APIResponse
+// @Router       /api/users/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -103,6 +151,15 @@ func (h *Handler) Update(c *gin.Context) {
 	utils.Success(c, http.StatusOK, user)
 }
 
+// Delete godoc
+// @Summary      Delete a user
+// @Tags         Users
+// @Produce      json
+// @Param        id   path      int  true  "User ID"
+// @Success      200  {object}  utils.APIResponse
+// @Failure      400  {object}  utils.APIResponse
+// @Failure      404  {object}  utils.APIResponse
+// @Router       /api/users/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

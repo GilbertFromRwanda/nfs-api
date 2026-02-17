@@ -21,4 +21,10 @@ type User struct {
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at,omitempty"`
+	FullName  string         `gorm:"-" json:"full_name"`
+}
+
+func (u *User) AfterFind(tx *gorm.DB) error {
+	u.FullName = u.FirstName + " " + u.LastName
+	return nil
 }

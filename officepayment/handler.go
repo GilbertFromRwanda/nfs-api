@@ -1,4 +1,4 @@
-package office
+package officepayment
 
 import (
 	"net/http"
@@ -18,14 +18,14 @@ func NewHandler(service *Service) *Handler {
 }
 
 // Create godoc
-// @Summary      Create a new office
-// @Tags         Offices
+// @Summary      Create a new office payment
+// @Tags         Office Payments
 // @Accept       json
 // @Produce      json
 // @Param        body  body      CreateRequest  true  "Create payload"
-// @Success      201   {object}  utils.APIResponse{data=Office}
+// @Success      201   {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices [post]
+// @Router       /api/office-payments [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -33,49 +33,52 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.Create(req)
+	payment, err := h.service.Create(req)
 	if err != nil {
 		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusCreated, office)
+	utils.Success(c, http.StatusCreated, payment)
 }
 
 // GetAll godoc
-// @Summary      List all offices
-// @Tags         Offices
+// @Summary      List all office payments
+// @Tags         Office Payments
 // @Produce      json
-// @Param        page      query     int  false  "Page number"  default(1)
-// @Param        per_page  query     int  false  "Items per page"  default(50)
+// @Param        page       query     int     false  "Page number"  default(1)
+// @Param        per_page   query     int     false  "Items per page"  default(50)
+// @Param        office_id  query     int     false  "Filter by office ID"
+// @Param        date_from  query     string  false  "Filter from date (YYYY-MM-DD)"
+// @Param        date_to    query     string  false  "Filter to date (YYYY-MM-DD)"
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/offices [get]
+// @Router       /api/office-payments [get]
 func (h *Handler) GetAll(c *gin.Context) {
-	var p utils.PaginationRequest
-	if err := c.ShouldBindQuery(&p); err != nil {
+	var filter FilterRequest
+	if err := c.ShouldBindQuery(&filter); err != nil {
 		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	offices, err := h.service.GetAll(p)
+	payments, err := h.service.GetAll(filter)
 	if err != nil {
-		utils.Error(c, http.StatusInternalServerError, err.Error())
+		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, offices)
+	utils.Success(c, http.StatusOK, payments)
 }
 
 // GetByID godoc
-// @Summary      Get office by ID
-// @Tags         Offices
+// @Summary      Get office payment by ID
+// @Tags         Office Payments
 // @Produce      json
-// @Param        id   path      int  true  "Office ID"
-// @Success      200  {object}  utils.APIResponse{data=Office}
+// @Param        id   path      int  true  "Office Payment ID"
+// @Success      200  {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [get]
+// @Router       /api/office-payments/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -83,25 +86,25 @@ func (h *Handler) GetByID(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.GetByID(uint(id))
+	payment, err := h.service.GetByID(uint(id))
 	if err != nil {
 		utils.Error(c, http.StatusNotFound, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, office)
+	utils.Success(c, http.StatusOK, payment)
 }
 
 // Update godoc
-// @Summary      Update an office
-// @Tags         Offices
+// @Summary      Update an office payment
+// @Tags         Office Payments
 // @Accept       json
 // @Produce      json
-// @Param        id    path      int            true  "Office ID"
+// @Param        id    path      int            true  "Office Payment ID"
 // @Param        body  body      UpdateRequest  true  "Update payload"
-// @Success      200   {object}  utils.APIResponse{data=Office}
+// @Success      200   {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices/{id} [put]
+// @Router       /api/office-payments/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -115,24 +118,24 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 
-	office, err := h.service.Update(uint(id), req)
+	payment, err := h.service.Update(uint(id), req)
 	if err != nil {
 		utils.Error(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	utils.Success(c, http.StatusOK, office)
+	utils.Success(c, http.StatusOK, payment)
 }
 
 // Delete godoc
-// @Summary      Delete an office
-// @Tags         Offices
+// @Summary      Delete an office payment
+// @Tags         Office Payments
 // @Produce      json
-// @Param        id   path      int  true  "Office ID"
+// @Param        id   path      int  true  "Office Payment ID"
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [delete]
+// @Router       /api/office-payments/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -145,16 +148,16 @@ func (h *Handler) Delete(c *gin.Context) {
 		return
 	}
 
-	utils.Success(c, http.StatusOK, gin.H{"message": "office deleted"})
+	utils.Success(c, http.StatusOK, gin.H{"message": "office payment deleted"})
 }
 
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
-	offices := r.Group("/offices")
+	payments := r.Group("/office-payments")
 	{
-		offices.POST("", h.Create)
-		offices.GET("", h.GetAll)
-		offices.GET("/:id", h.GetByID)
-		offices.PUT("/:id", h.Update)
-		offices.DELETE("/:id", h.Delete)
+		payments.POST("", h.Create)
+		payments.GET("", h.GetAll)
+		payments.GET("/:id", h.GetByID)
+		payments.PUT("/:id", h.Update)
+		payments.DELETE("/:id", h.Delete)
 	}
 }

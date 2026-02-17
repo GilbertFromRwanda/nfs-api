@@ -10,6 +10,7 @@ type CreateRequest struct {
 	PendingPeriodDays int   `json:"pending_period_days" binding:"required,min=1"`
 	UPI              string `json:"upi" binding:"required,max=100"`
 	OfficeID         uint   `json:"office_id" binding:"required"`
+	Comment          string `json:"comment"`
 }
 
 type UpdateRequest struct {
@@ -20,6 +21,7 @@ type UpdateRequest struct {
 	PendingPeriodDays *int   `json:"pending_period_days" binding:"omitempty,min=1"`
 	UPI              *string `json:"upi" binding:"omitempty,max=100"`
 	OfficeID         *uint   `json:"office_id"`
+	Comment          *string `json:"comment"`
 }
 
 type StatusCount struct {
