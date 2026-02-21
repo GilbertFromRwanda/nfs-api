@@ -18,6 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 
 COPY --from=builder /app-bin /usr/local/bin/
 
-EXPOSE 8080
+EXPOSE 5002
 
 CMD ["app-bin"]
