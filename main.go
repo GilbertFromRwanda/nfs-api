@@ -31,7 +31,7 @@ import (
 // @version         1.0
 // @description     NFS API Server
 
-// @host            localhost:8080
+// @host            nfs-api.andasy.dev
 // @BasePath        /
 
 // @securityDefinitions.apikey BearerAuth
@@ -64,9 +64,13 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "Connected"})
+	})
 
-	api := r.Group("/api")
+	r.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	api := r.Group("/api/v1")
 	{
 		authService := auth.NewService(cfg)
 		authHandler := auth.NewHandler(authService)

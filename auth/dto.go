@@ -25,6 +25,10 @@ type UpdateUserRequest struct {
 	Status    *string `json:"status" binding:"omitempty,oneof=active inactive"`
 }
 
+type ResetPasswordRequest struct {
+	NewPassword string `json:"new_password" binding:"required,min=6"`
+}
+
 type AuthResponse struct {
 	Token string   `json:"token"`
 	User  UserInfo `json:"user"`

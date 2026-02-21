@@ -181,6 +181,27 @@ func (s *Service) Delete(id uint) error {
 	return nil
 }
 
+func (s *Service) ResetPassword(id uint, req ResetPasswordRequest) error {
+	var user User
+	if err := database.DB.First(&user, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("user not found")
+		}
+		return errors.New("failed to find user")
+	}
+
+	hashed, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return errors.New("failed to hash password")
+	}
+
+	if err := database.DB.Model(&user).Update("password", string(hashed)).Error; err != nil {
+		return errors.New("failed to reset password")
+	}
+
+	return nil
+}
+
 func (s *Service) generateToken(user User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": user.ID,

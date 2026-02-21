@@ -25,7 +25,7 @@ func NewHandler(service *Service) *Handler {
 // @Param        body  body      CreateRequest  true  "Create payload"
 // @Success      201   {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/office-payments [post]
+// @Router       /api/v1/office-payments [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -53,7 +53,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        date_to    query     string  false  "Filter to date (YYYY-MM-DD)"
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/office-payments [get]
+// @Router       /api/v1/office-payments [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -78,7 +78,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/office-payments/{id} [get]
+// @Router       /api/v1/office-payments/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -104,7 +104,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=OfficePayment}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/office-payments/{id} [put]
+// @Router       /api/v1/office-payments/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -135,7 +135,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/office-payments/{id} [delete]
+// @Router       /api/v1/office-payments/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

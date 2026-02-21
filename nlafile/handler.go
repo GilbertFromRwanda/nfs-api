@@ -26,7 +26,7 @@ func NewHandler(service *Service) *Handler {
 // @Success      201   {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
-// @Router       /api/nla-files [post]
+// @Router       /api/v1/nla-files [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -63,7 +63,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        date_to    query     string  false  "Filter to date (YYYY-MM-DD)"
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-files [get]
+// @Router       /api/v1/nla-files [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -88,7 +88,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/nla-files/{id} [get]
+// @Router       /api/v1/nla-files/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -114,7 +114,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/nla-files/{id} [put]
+// @Router       /api/v1/nla-files/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -145,7 +145,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/nla-files/{id} [delete]
+// @Router       /api/v1/nla-files/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -168,7 +168,7 @@ func (h *Handler) Delete(c *gin.Context) {
 // @Param        id   path      int  true  "NLA File ID"
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-files/{id}/next [patch]
+// @Router       /api/v1/nla-files/{id}/next [patch]
 func (h *Handler) MoveToNext(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -192,7 +192,7 @@ func (h *Handler) MoveToNext(c *gin.Context) {
 // @Param        id   path      int  true  "NLA File ID"
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-files/{id}/approve [patch]
+// @Router       /api/v1/nla-files/{id}/approve [patch]
 func (h *Handler) Approve(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -216,7 +216,7 @@ func (h *Handler) Approve(c *gin.Context) {
 // @Param        id   path      int  true  "NLA File ID"
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-files/{id}/reject [patch]
+// @Router       /api/v1/nla-files/{id}/reject [patch]
 func (h *Handler) Reject(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -239,7 +239,7 @@ func (h *Handler) Reject(c *gin.Context) {
 // @Produce      json
 // @Success      200  {object}  utils.APIResponse{data=[]StatusCount}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-files/counts [get]
+// @Router       /api/v1/nla-files/counts [get]
 func (h *Handler) GetStatusCounts(c *gin.Context) {
 	counts, err := h.service.GetStatusCounts()
 	if err != nil {
