@@ -68,7 +68,9 @@ func main() {
 		c.JSON(200, gin.H{"message": "Connected"})
 	})
 
-	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	if cfg.AppEnv != "production" {
+		r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
 
 	api := r.Group("/api/v1")
 	{
