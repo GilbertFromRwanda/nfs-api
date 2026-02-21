@@ -160,6 +160,14 @@ definitions:
     - password
     - username
     type: object
+  auth.ResetPasswordRequest:
+    properties:
+      new_password:
+        minLength: 6
+        type: string
+    required:
+    - new_password
+    type: object
   auth.UpdateUserRequest:
     properties:
       first_name:
@@ -482,10 +490,10 @@ definitions:
   nlachecklist.CreateRequest:
     properties:
       buyer_1_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       buyer_2_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       date:
         description: YYYY-MM-DD
@@ -496,10 +504,10 @@ definitions:
         minItems: 1
         type: array
       seller_1_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       seller_2_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       upi:
         maxLength: 40
@@ -536,6 +544,8 @@ definitions:
         type: string
       date:
         type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
       dossiers:
         items:
           $ref: '#/definitions/nlachecklist.ChecklistDossier'
@@ -564,10 +574,10 @@ definitions:
   nlachecklist.UpdateRequest:
     properties:
       buyer_1_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       buyer_2_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       date:
         type: string
@@ -576,10 +586,10 @@ definitions:
           $ref: '#/definitions/nlachecklist.DossierItem'
         type: array
       seller_1_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       seller_2_names:
-        maxLength: 200
+        maxLength: 150
         type: string
       upi:
         maxLength: 40
@@ -1102,14 +1112,14 @@ definitions:
       total_pages:
         type: integer
     type: object
-host: localhost:8080
+host: nfs-api.andasy.dev
 info:
   contact: {}
   description: NFS API Server
   title: NFS API
   version: "1.0"
 paths:
-  /api/agreements:
+  /api/v1/agreements:
     get:
       parameters:
       - default: 1
@@ -1190,7 +1200,7 @@ paths:
       summary: Create a new agreement
       tags:
       - Agreements
-  /api/agreements/{id}:
+  /api/v1/agreements/{id}:
     delete:
       parameters:
       - description: Agreement ID
@@ -1280,7 +1290,7 @@ paths:
       summary: Update an agreement
       tags:
       - Agreements
-  /api/app-features:
+  /api/v1/app-features:
     get:
       parameters:
       - default: 1
@@ -1341,7 +1351,7 @@ paths:
       summary: Create a new app feature
       tags:
       - App Features
-  /api/app-features/{id}:
+  /api/v1/app-features/{id}:
     delete:
       parameters:
       - description: App Feature ID
@@ -1431,7 +1441,7 @@ paths:
       summary: Update an app feature
       tags:
       - App Features
-  /api/auth/login:
+  /api/v1/auth/login:
     post:
       consumes:
       - application/json
@@ -1465,7 +1475,7 @@ paths:
       summary: Login
       tags:
       - Auth
-  /api/auth/register:
+  /api/v1/auth/register:
     post:
       consumes:
       - application/json
@@ -1499,7 +1509,7 @@ paths:
       summary: Register a new user
       tags:
       - Auth
-  /api/checklist-notes:
+  /api/v1/checklist-notes:
     get:
       parameters:
       - default: 1
@@ -1564,7 +1574,7 @@ paths:
       summary: Create a new checklist note
       tags:
       - Checklist Notes
-  /api/checklist-notes/{id}:
+  /api/v1/checklist-notes/{id}:
     delete:
       parameters:
       - description: Checklist Note ID
@@ -1654,7 +1664,7 @@ paths:
       summary: Update a checklist note
       tags:
       - Checklist Notes
-  /api/invoices:
+  /api/v1/invoices:
     get:
       parameters:
       - default: 1
@@ -1747,7 +1757,7 @@ paths:
       summary: Create a new invoice
       tags:
       - Invoices
-  /api/invoices/{id}:
+  /api/v1/invoices/{id}:
     delete:
       parameters:
       - description: Invoice ID
@@ -1837,7 +1847,7 @@ paths:
       summary: Update an invoice
       tags:
       - Invoices
-  /api/invoices/{id}/services/{serviceId}/status:
+  /api/v1/invoices/{id}/services/{serviceId}/status:
     patch:
       consumes:
       - application/json
@@ -1877,7 +1887,7 @@ paths:
       summary: Update invoice service payment status
       tags:
       - Invoices
-  /api/invoices/user-summaries:
+  /api/v1/invoices/user-summaries:
     get:
       parameters:
       - default: 1
@@ -1931,7 +1941,7 @@ paths:
       summary: Get invoice summaries grouped by user
       tags:
       - Invoices
-  /api/nla-checklists:
+  /api/v1/nla-checklists:
     get:
       parameters:
       - default: 1
@@ -2016,7 +2026,7 @@ paths:
       summary: Create a new NLA checklist
       tags:
       - NLA Checklists
-  /api/nla-checklists/{id}:
+  /api/v1/nla-checklists/{id}:
     delete:
       parameters:
       - description: Checklist ID
@@ -2106,7 +2116,7 @@ paths:
       summary: Update an NLA checklist
       tags:
       - NLA Checklists
-  /api/nla-files:
+  /api/v1/nla-files:
     get:
       parameters:
       - default: 1
@@ -2195,7 +2205,7 @@ paths:
       summary: Create a new NLA file
       tags:
       - NLA Files
-  /api/nla-files/{id}:
+  /api/v1/nla-files/{id}:
     delete:
       parameters:
       - description: NLA File ID
@@ -2285,7 +2295,7 @@ paths:
       summary: Update an NLA file
       tags:
       - NLA Files
-  /api/nla-files/{id}/approve:
+  /api/v1/nla-files/{id}/approve:
     patch:
       parameters:
       - description: NLA File ID
@@ -2312,7 +2322,7 @@ paths:
       summary: Approve an NLA file
       tags:
       - NLA Files
-  /api/nla-files/{id}/next:
+  /api/v1/nla-files/{id}/next:
     patch:
       parameters:
       - description: NLA File ID
@@ -2339,7 +2349,7 @@ paths:
       summary: Move NLA file to next status
       tags:
       - NLA Files
-  /api/nla-files/{id}/reject:
+  /api/v1/nla-files/{id}/reject:
     patch:
       parameters:
       - description: NLA File ID
@@ -2366,7 +2376,7 @@ paths:
       summary: Reject an NLA file
       tags:
       - NLA Files
-  /api/nla-files/counts:
+  /api/v1/nla-files/counts:
     get:
       produces:
       - application/json
@@ -2389,7 +2399,7 @@ paths:
       summary: Get NLA file status counts
       tags:
       - NLA Files
-  /api/notaries:
+  /api/v1/notaries:
     get:
       parameters:
       - default: 1
@@ -2450,7 +2460,7 @@ paths:
       summary: Create a new notary
       tags:
       - Notaries
-  /api/notaries/{id}:
+  /api/v1/notaries/{id}:
     delete:
       parameters:
       - description: Notary ID
@@ -2540,7 +2550,7 @@ paths:
       summary: Update a notary
       tags:
       - Notaries
-  /api/notaries/office/{officeId}:
+  /api/v1/notaries/office/{officeId}:
     get:
       parameters:
       - description: Office ID
@@ -2569,7 +2579,7 @@ paths:
       summary: Get notaries by office ID
       tags:
       - Notaries
-  /api/office-features/assign:
+  /api/v1/office-features/assign:
     post:
       consumes:
       - application/json
@@ -2598,7 +2608,7 @@ paths:
       summary: Assign features to an office
       tags:
       - Office Features
-  /api/office-features/office/{officeId}:
+  /api/v1/office-features/office/{officeId}:
     get:
       parameters:
       - description: Office ID
@@ -2627,7 +2637,7 @@ paths:
       summary: Get features assigned to an office
       tags:
       - Office Features
-  /api/office-features/revoke:
+  /api/v1/office-features/revoke:
     delete:
       consumes:
       - application/json
@@ -2656,7 +2666,7 @@ paths:
       summary: Revoke features from an office
       tags:
       - Office Features
-  /api/office-forms:
+  /api/v1/office-forms:
     get:
       parameters:
       - default: 1
@@ -2717,7 +2727,7 @@ paths:
       summary: Create a new office form
       tags:
       - Office Forms
-  /api/office-forms/{id}:
+  /api/v1/office-forms/{id}:
     delete:
       parameters:
       - description: Office Form ID
@@ -2807,7 +2817,7 @@ paths:
       summary: Update an office form
       tags:
       - Office Forms
-  /api/office-forms/office/{officeId}:
+  /api/v1/office-forms/office/{officeId}:
     get:
       parameters:
       - description: Office ID
@@ -2836,7 +2846,7 @@ paths:
       summary: Get office forms by office ID
       tags:
       - Office Forms
-  /api/office-payments:
+  /api/v1/office-payments:
     get:
       parameters:
       - default: 1
@@ -2909,7 +2919,7 @@ paths:
       summary: Create a new office payment
       tags:
       - Office Payments
-  /api/office-payments/{id}:
+  /api/v1/office-payments/{id}:
     delete:
       parameters:
       - description: Office Payment ID
@@ -2999,7 +3009,7 @@ paths:
       summary: Update an office payment
       tags:
       - Office Payments
-  /api/office-services:
+  /api/v1/office-services:
     get:
       parameters:
       - default: 1
@@ -3060,7 +3070,7 @@ paths:
       summary: Create a new office service
       tags:
       - Office Services
-  /api/office-services/{id}:
+  /api/v1/office-services/{id}:
     delete:
       parameters:
       - description: Office Service ID
@@ -3150,7 +3160,7 @@ paths:
       summary: Update an office service
       tags:
       - Office Services
-  /api/office-services/office/{officeId}:
+  /api/v1/office-services/office/{officeId}:
     get:
       parameters:
       - description: Office ID
@@ -3179,7 +3189,7 @@ paths:
       summary: Get office services by office ID
       tags:
       - Office Services
-  /api/offices:
+  /api/v1/offices:
     get:
       parameters:
       - default: 1
@@ -3240,7 +3250,7 @@ paths:
       summary: Create a new office
       tags:
       - Offices
-  /api/offices/{id}:
+  /api/v1/offices/{id}:
     delete:
       parameters:
       - description: Office ID
@@ -3330,7 +3340,7 @@ paths:
       summary: Update an office
       tags:
       - Offices
-  /api/permissions:
+  /api/v1/permissions:
     get:
       parameters:
       - default: 1
@@ -3391,7 +3401,7 @@ paths:
       summary: Create a new permission
       tags:
       - Permissions
-  /api/permissions/{id}:
+  /api/v1/permissions/{id}:
     delete:
       parameters:
       - description: Permission ID
@@ -3481,7 +3491,7 @@ paths:
       summary: Update a permission
       tags:
       - Permissions
-  /api/user-permissions:
+  /api/v1/user-permissions:
     post:
       consumes:
       - application/json
@@ -3515,7 +3525,7 @@ paths:
       summary: Assign a permission to a user
       tags:
       - User Permissions
-  /api/user-permissions/{id}:
+  /api/v1/user-permissions/{id}:
     delete:
       parameters:
       - description: User Permission ID
@@ -3541,7 +3551,7 @@ paths:
       summary: Revoke a user permission
       tags:
       - User Permissions
-  /api/user-permissions/user/{userId}:
+  /api/v1/user-permissions/user/{userId}:
     get:
       parameters:
       - description: User ID
@@ -3570,7 +3580,7 @@ paths:
       summary: Get permissions by user ID
       tags:
       - User Permissions
-  /api/user-permissions/user/{userId}/assign-many:
+  /api/v1/user-permissions/user/{userId}/assign-many:
     post:
       consumes:
       - application/json
@@ -3609,7 +3619,7 @@ paths:
       summary: Assign multiple permissions to a user
       tags:
       - User Permissions
-  /api/user-permissions/user/{userId}/revoke-many:
+  /api/v1/user-permissions/user/{userId}/revoke-many:
     delete:
       consumes:
       - application/json
@@ -3648,7 +3658,7 @@ paths:
       summary: Revoke multiple permissions from a user
       tags:
       - User Permissions
-  /api/users:
+  /api/v1/users:
     get:
       parameters:
       - default: 1
@@ -3680,7 +3690,7 @@ paths:
       summary: List all users
       tags:
       - Users
-  /api/users/{id}:
+  /api/v1/users/{id}:
     delete:
       parameters:
       - description: User ID
@@ -3768,6 +3778,40 @@ paths:
           schema:
             $ref: '#/definitions/utils.APIResponse'
       summary: Update a user
+      tags:
+      - Users
+  /api/v1/users/{id}/reset-password:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: New password payload
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/auth.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Reset a user's password (admin)
       tags:
       - Users
 securityDefinitions:

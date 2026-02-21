@@ -25,7 +25,7 @@ func NewHandler(service *Service) *Handler {
 // @Param        body  body      CreateRequest  true  "Create payload"
 // @Success      201   {object}  utils.APIResponse{data=Office}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices [post]
+// @Router       /api/v1/offices [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -50,7 +50,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        per_page  query     int  false  "Items per page"  default(50)
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/offices [get]
+// @Router       /api/v1/offices [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -75,7 +75,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=Office}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [get]
+// @Router       /api/v1/offices/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -101,7 +101,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=Office}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/offices/{id} [put]
+// @Router       /api/v1/offices/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -132,7 +132,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/offices/{id} [delete]
+// @Router       /api/v1/offices/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

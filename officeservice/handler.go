@@ -25,7 +25,7 @@ func NewHandler(service *Service) *Handler {
 // @Param        body  body      CreateRequest  true  "Create payload"
 // @Success      201   {object}  utils.APIResponse{data=OfficeService}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/office-services [post]
+// @Router       /api/v1/office-services [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -50,7 +50,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        per_page  query     int  false  "Items per page"  default(50)
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/office-services [get]
+// @Router       /api/v1/office-services [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -74,7 +74,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Param        officeId  path      int  true  "Office ID"
 // @Success      200       {object}  utils.APIResponse{data=[]OfficeService}
 // @Failure      400       {object}  utils.APIResponse
-// @Router       /api/office-services/office/{officeId} [get]
+// @Router       /api/v1/office-services/office/{officeId} [get]
 func (h *Handler) GetByOfficeID(c *gin.Context) {
 	officeID, err := strconv.ParseUint(c.Param("officeId"), 10, 32)
 	if err != nil {
@@ -99,7 +99,7 @@ func (h *Handler) GetByOfficeID(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=OfficeService}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/office-services/{id} [get]
+// @Router       /api/v1/office-services/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -125,7 +125,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=OfficeService}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/office-services/{id} [put]
+// @Router       /api/v1/office-services/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -156,7 +156,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/office-services/{id} [delete]
+// @Router       /api/v1/office-services/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
