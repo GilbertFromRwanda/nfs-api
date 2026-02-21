@@ -1,22 +1,20 @@
-FROM golang:1.23-alpine AS builder
+ARG GO_VERSION=1
 
-WORKDIR /app
+FROM golang:${GO_VERSION}-bookworm as builder
 
-COPY go.mod go.sum ./
-RUN go mod download
+WORKDIR /usr/src/app
 
 COPY . .
-RUN CGO_ENABLED=0 go build -o /app/nfs-api .
 
-FROM alpine:3.20
+RUN go mod download && go mod verify
 
-RUN apk --no-cache add ca-certificates tzdata
+RUN go build -v -o /app-bin .
 
-WORKDIR /app
 
-COPY --from=builder /app/nfs-api .
-COPY .env .env
+FROM debian:bookworm
+
+COPY --from=builder /app-bin /usr/local/bin/
 
 EXPOSE 8080
 
-CMD ["./nfs-api"]
+CMD ["app-bin"]
