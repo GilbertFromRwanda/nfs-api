@@ -28,11 +28,6 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install Andasy CLI
-        run: curl -fsSL https://get.andasy.dev | sh
-
-      - name: Deploy to Andasy
-        run: andasy deploy
+      - uses: quarksgroup/andasy-action@main
         env:
-          ANDASY_TOKEN: ${{ secrets.ANDASY_TOKEN }}
+          ANDASY_ACCESS_TOKEN: ${{ secrets.ANDASY_ACCESS_TOKEN }}
