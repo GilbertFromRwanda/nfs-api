@@ -9,7 +9,7 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOMAXPROCS=1 go build -p 1 -ldflags="-s -w" -o /app-bin .
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /app-bin .
 
 
 FROM alpine:latest
