@@ -1,8 +1,22 @@
-FROM debian:bookworm-slim
+FROM golang:1-alpine AS builder
 
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git
 
-COPY app-bin /usr/local/bin/
+WORKDIR /usr/src/app
+
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
+
+COPY . .
+
+RUN CGO_ENABLED=0 GOMAXPROCS=1 go build -p 1 -ldflags="-s -w" -o /app-bin .
+
+
+FROM alpine:latest
+
+RUN apk add --no-cache ca-certificates
+
+COPY --from=builder /app-bin /usr/local/bin/
 
 EXPOSE 5002
 
