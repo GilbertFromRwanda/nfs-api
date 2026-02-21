@@ -14,6 +14,7 @@ type Config struct {
 	DBName     string
 	JWTSecret  string
 	Port       string
+	AppEnv     string
 }
 
 func Load() *Config {
@@ -27,6 +28,7 @@ func Load() *Config {
 		DBName:     getEnv("DB_NAME", "nfs_share_db_v2"),
 		JWTSecret:  getEnv("JWT_SECRET", "change-me-in-production!"),
 		Port:       getEnv("PORT", "5002"),
+		AppEnv:     getEnv("APP_ENV", "production"),
 	}
 }
 

@@ -2,7 +2,7 @@ name: Build & Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   build:
@@ -28,6 +28,17 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v4
-      - uses: quarksgroup/andasy-action@main
+
+      - name: Deploy to Production
+        if: github.ref_name == 'main'
+        uses: quarksgroup/andasy-action@main
+        env:
+          ANDASY_ACCESS_TOKEN: ${{ secrets.ANDASY_ACCESS_TOKEN }}
+
+      - name: Deploy to Development
+        if: github.ref_name == 'develop'
+        uses: quarksgroup/andasy-action@main
+        with:
+          config: andasy.dev.hcl
         env:
           ANDASY_ACCESS_TOKEN: ${{ secrets.ANDASY_ACCESS_TOKEN }}
