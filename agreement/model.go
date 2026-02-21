@@ -13,7 +13,7 @@ type Agreement struct {
 	NumberOfCopies int             `gorm:"not null;default:1" json:"number_of_copies"`
 	Pricing        *float64        `gorm:"default:null" json:"pricing"`
 	Date           time.Time       `gorm:"not null;index" json:"date"`
-	Content        string          `gorm:"type:longtext;not null" json:"content"`
+	Content        string          `gorm:"type:text;not null" json:"content"`
 	NotaryID       uint            `gorm:"not null;index" json:"notary_id"`
 	Notary         *notary.Notary  `gorm:"foreignKey:NotaryID" json:"notary,omitempty"`
 	OfficeID       uint            `gorm:"not null;index" json:"office_id"`
