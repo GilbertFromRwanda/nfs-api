@@ -26,7 +26,7 @@ func NewHandler(service *Service) *Handler {
 // @Success      201   {object}  utils.APIResponse{data=AuthResponse}
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      409   {object}  utils.APIResponse
-// @Router       /api/auth/register [post]
+// @Router       /api/v1/auth/register [post]
 func (h *Handler) Register(c *gin.Context) {
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -52,7 +52,7 @@ func (h *Handler) Register(c *gin.Context) {
 // @Success      200   {object}  utils.APIResponse{data=AuthResponse}
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
-// @Router       /api/auth/login [post]
+// @Router       /api/v1/auth/login [post]
 func (h *Handler) Login(c *gin.Context) {
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -77,7 +77,7 @@ func (h *Handler) Login(c *gin.Context) {
 // @Param        per_page  query     int  false  "Items per page"  default(50)
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/users [get]
+// @Router       /api/v1/users [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -102,7 +102,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=User}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/users/{id} [get]
+// @Router       /api/v1/users/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -128,7 +128,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateUserRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=User}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/users/{id} [put]
+// @Router       /api/v1/users/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -159,7 +159,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/users/{id} [delete]
+// @Router       /api/v1/users/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -175,6 +175,38 @@ func (h *Handler) Delete(c *gin.Context) {
 	utils.Success(c, http.StatusOK, gin.H{"message": "user deleted"})
 }
 
+// ResetPassword godoc
+// @Summary      Reset a user's password (admin)
+// @Tags         Users
+// @Accept       json
+// @Produce      json
+// @Param        id    path      int                   true  "User ID"
+// @Param        body  body      ResetPasswordRequest  true  "New password payload"
+// @Success      200   {object}  utils.APIResponse
+// @Failure      400   {object}  utils.APIResponse
+// @Failure      404   {object}  utils.APIResponse
+// @Router       /api/v1/users/{id}/reset-password [patch]
+func (h *Handler) ResetPassword(c *gin.Context) {
+	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+	if err != nil {
+		utils.Error(c, http.StatusBadRequest, "invalid id")
+		return
+	}
+
+	var req ResetPasswordRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.service.ResetPassword(uint(id), req); err != nil {
+		utils.Error(c, http.StatusNotFound, err.Error())
+		return
+	}
+
+	utils.Success(c, http.StatusOK, gin.H{"message": "password reset successfully"})
+}
+
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 	r.POST("/auth/register", h.Register)
 	r.POST("/auth/login", h.Login)
@@ -185,5 +217,6 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 		users.GET("/:id", h.GetByID)
 		users.PUT("/:id", h.Update)
 		users.DELETE("/:id", h.Delete)
+		users.PATCH("/:id/reset-password", h.ResetPassword)
 	}
 }

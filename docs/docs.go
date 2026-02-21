@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/agreements": {
+        "/api/v1/agreements": {
             "get": {
                 "produces": [
                     "application/json"
@@ -147,7 +147,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/agreements/{id}": {
+        "/api/v1/agreements/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -293,7 +293,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/app-features": {
+        "/api/v1/app-features": {
             "get": {
                 "produces": [
                     "application/json"
@@ -395,7 +395,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/app-features/{id}": {
+        "/api/v1/app-features/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -541,7 +541,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/auth/login": {
+        "/api/v1/auth/login": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -598,7 +598,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/auth/register": {
+        "/api/v1/auth/register": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -655,7 +655,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/checklist-notes": {
+        "/api/v1/checklist-notes": {
             "get": {
                 "produces": [
                     "application/json"
@@ -763,7 +763,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/checklist-notes/{id}": {
+        "/api/v1/checklist-notes/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -909,7 +909,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/invoices": {
+        "/api/v1/invoices": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1059,7 +1059,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/invoices/user-summaries": {
+        "/api/v1/invoices/user-summaries": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1145,7 +1145,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/invoices/{id}": {
+        "/api/v1/invoices/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1291,7 +1291,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/invoices/{id}/services/{serviceId}/status": {
+        "/api/v1/invoices/{id}/services/{serviceId}/status": {
             "patch": {
                 "consumes": [
                     "application/json"
@@ -1356,7 +1356,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-checklists": {
+        "/api/v1/nla-checklists": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1494,7 +1494,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-checklists/{id}": {
+        "/api/v1/nla-checklists/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1640,7 +1640,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files": {
+        "/api/v1/nla-files": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1784,7 +1784,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files/counts": {
+        "/api/v1/nla-files/counts": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1824,7 +1824,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files/{id}": {
+        "/api/v1/nla-files/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -1970,7 +1970,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files/{id}/approve": {
+        "/api/v1/nla-files/{id}/approve": {
             "patch": {
                 "produces": [
                     "application/json"
@@ -2016,7 +2016,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files/{id}/next": {
+        "/api/v1/nla-files/{id}/next": {
             "patch": {
                 "produces": [
                     "application/json"
@@ -2062,7 +2062,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/nla-files/{id}/reject": {
+        "/api/v1/nla-files/{id}/reject": {
             "patch": {
                 "produces": [
                     "application/json"
@@ -2108,7 +2108,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/notaries": {
+        "/api/v1/notaries": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2210,7 +2210,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/notaries/office/{officeId}": {
+        "/api/v1/notaries/office/{officeId}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2259,7 +2259,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/notaries/{id}": {
+        "/api/v1/notaries/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2405,7 +2405,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-features/assign": {
+        "/api/v1/office-features/assign": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -2450,7 +2450,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-features/office/{officeId}": {
+        "/api/v1/office-features/office/{officeId}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2499,7 +2499,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-features/revoke": {
+        "/api/v1/office-features/revoke": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -2544,7 +2544,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-forms": {
+        "/api/v1/office-forms": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2646,7 +2646,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-forms/office/{officeId}": {
+        "/api/v1/office-forms/office/{officeId}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2695,7 +2695,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-forms/{id}": {
+        "/api/v1/office-forms/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2841,7 +2841,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-payments": {
+        "/api/v1/office-payments": {
             "get": {
                 "produces": [
                     "application/json"
@@ -2961,7 +2961,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-payments/{id}": {
+        "/api/v1/office-payments/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3107,7 +3107,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-services": {
+        "/api/v1/office-services": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3209,7 +3209,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-services/office/{officeId}": {
+        "/api/v1/office-services/office/{officeId}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3258,7 +3258,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/office-services/{id}": {
+        "/api/v1/office-services/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3404,7 +3404,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/offices": {
+        "/api/v1/offices": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3506,7 +3506,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/offices/{id}": {
+        "/api/v1/offices/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3652,7 +3652,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/permissions": {
+        "/api/v1/permissions": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3754,7 +3754,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/permissions/{id}": {
+        "/api/v1/permissions/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -3900,7 +3900,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user-permissions": {
+        "/api/v1/user-permissions": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -3957,7 +3957,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user-permissions/user/{userId}": {
+        "/api/v1/user-permissions/user/{userId}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -4006,7 +4006,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user-permissions/user/{userId}/assign-many": {
+        "/api/v1/user-permissions/user/{userId}/assign-many": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -4066,7 +4066,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user-permissions/user/{userId}/revoke-many": {
+        "/api/v1/user-permissions/user/{userId}/revoke-many": {
             "delete": {
                 "consumes": [
                     "application/json"
@@ -4126,7 +4126,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/user-permissions/{id}": {
+        "/api/v1/user-permissions/{id}": {
             "delete": {
                 "produces": [
                     "application/json"
@@ -4166,7 +4166,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/users": {
+        "/api/v1/users": {
             "get": {
                 "produces": [
                     "application/json"
@@ -4219,7 +4219,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/users/{id}": {
+        "/api/v1/users/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -4341,6 +4341,58 @@ const docTemplate = `{
                         "name": "id",
                         "in": "path",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.APIResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.APIResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/users/{id}/reset-password": {
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Reset a user's password (admin)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "New password payload",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/auth.ResetPasswordRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -4595,6 +4647,18 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 100,
                     "minLength": 3
+                }
+            }
+        },
+        "auth.ResetPasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string",
+                    "minLength": 6
                 }
             }
         },
@@ -5077,11 +5141,11 @@ const docTemplate = `{
             "properties": {
                 "buyer_1_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "buyer_2_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "date": {
                     "description": "YYYY-MM-DD",
@@ -5096,11 +5160,11 @@ const docTemplate = `{
                 },
                 "seller_1_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "seller_2_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "upi": {
                     "type": "string",
@@ -5143,6 +5207,9 @@ const docTemplate = `{
                 },
                 "date": {
                     "type": "string"
+                },
+                "deleted_at": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
                 },
                 "dossiers": {
                     "type": "array",
@@ -5187,11 +5254,11 @@ const docTemplate = `{
             "properties": {
                 "buyer_1_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "buyer_2_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "date": {
                     "type": "string"
@@ -5204,11 +5271,11 @@ const docTemplate = `{
                 },
                 "seller_1_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "seller_2_names": {
                     "type": "string",
-                    "maxLength": 200
+                    "maxLength": 150
                 },
                 "upi": {
                     "type": "string",
@@ -5985,7 +6052,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "nfs-api.andasy.dev",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "NFS API",

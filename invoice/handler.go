@@ -26,7 +26,7 @@ func NewHandler(service *Service) *Handler {
 // @Success      201   {object}  utils.APIResponse{data=Invoice}
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
-// @Router       /api/invoices [post]
+// @Router       /api/v1/invoices [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -69,7 +69,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        notary_status  query     string  false  "Filter by notary status (pending/signed_unpaid/signed_paid)"
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/invoices [get]
+// @Router       /api/v1/invoices [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -98,7 +98,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=Invoice}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/invoices/{id} [get]
+// @Router       /api/v1/invoices/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -124,7 +124,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=Invoice}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/invoices/{id} [put]
+// @Router       /api/v1/invoices/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -155,7 +155,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/invoices/{id} [delete]
+// @Router       /api/v1/invoices/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -181,7 +181,7 @@ func (h *Handler) Delete(c *gin.Context) {
 // @Param        body       body      UpdateServiceStatusRequest  true  "Status payload"
 // @Success      200  {object}  utils.APIResponse{data=Invoice}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/invoices/{id}/services/{serviceId}/status [patch]
+// @Router       /api/v1/invoices/{id}/services/{serviceId}/status [patch]
 func (h *Handler) UpdateServiceStatus(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -223,7 +223,7 @@ func (h *Handler) UpdateServiceStatus(c *gin.Context) {
 // @Param        user_status    query     string  false  "Filter by user status (paid/unpaid)"
 // @Success      200  {object}  utils.APIResponse{data=[]UserSummary}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/invoices/user-summaries [get]
+// @Router       /api/v1/invoices/user-summaries [get]
 func (h *Handler) GetUserSummaries(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {

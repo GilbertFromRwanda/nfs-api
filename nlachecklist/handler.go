@@ -26,7 +26,7 @@ func NewHandler(service *Service) *Handler {
 // @Success      201   {object}  utils.APIResponse{data=NlaChecklist}
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
-// @Router       /api/nla-checklists [post]
+// @Router       /api/v1/nla-checklists [post]
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -67,7 +67,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Param        upi        query     string  false  "Filter by UPI"
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
-// @Router       /api/nla-checklists [get]
+// @Router       /api/v1/nla-checklists [get]
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -96,7 +96,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=NlaChecklist}
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/nla-checklists/{id} [get]
+// @Router       /api/v1/nla-checklists/{id} [get]
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -122,7 +122,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Param        body  body      UpdateRequest  true  "Update payload"
 // @Success      200   {object}  utils.APIResponse{data=NlaChecklist}
 // @Failure      400   {object}  utils.APIResponse
-// @Router       /api/nla-checklists/{id} [put]
+// @Router       /api/v1/nla-checklists/{id} [put]
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -153,7 +153,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
-// @Router       /api/nla-checklists/{id} [delete]
+// @Router       /api/v1/nla-checklists/{id} [delete]
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
