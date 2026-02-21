@@ -68,7 +68,7 @@ func main() {
 		c.JSON(200, gin.H{"message": "Connected"})
 	})
 
-	r.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	api := r.Group("/api/v1")
 	{
