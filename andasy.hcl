@@ -12,7 +12,7 @@ app {
 
   compute {
     cpu      = 1
-    memory   = 512
+    memory   = 1024
     cpu_kind = "shared"
   }
 
