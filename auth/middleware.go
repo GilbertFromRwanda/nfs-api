@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"strings"
 
@@ -31,8 +32,11 @@ func jwtErrorMessage(err error) string {
 
 func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		ip := c.ClientIP()
+
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
+			log.Printf("[AUTH] 401 missing Authorization header | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "authorization header required")
 			c.Abort()
 			return
@@ -40,6 +44,7 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 		parts := strings.SplitN(authHeader, " ", 2)
 		if len(parts) != 2 || parts[0] != "Bearer" {
+			log.Printf("[AUTH] 401 invalid format (got %q) | ip=%s path=%s", parts[0], ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid authorization format")
 			c.Abort()
 			return
@@ -53,13 +58,16 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			utils.Error(c, http.StatusUnauthorized, jwtErrorMessage(err))
+			msg := jwtErrorMessage(err)
+			log.Printf("[AUTH] 401 %s | ip=%s path=%s err=%v", msg, ip, c.FullPath(), err)
+			utils.Error(c, http.StatusUnauthorized, msg)
 			c.Abort()
 			return
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
+			log.Printf("[AUTH] 401 invalid token claims | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid token claims")
 			c.Abort()
 			return
@@ -67,6 +75,7 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 		userID, ok := claims["user_id"].(float64)
 		if !ok {
+			log.Printf("[AUTH] 401 invalid user_id claim | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid user id in token")
 			c.Abort()
 			return
