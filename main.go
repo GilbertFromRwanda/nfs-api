@@ -87,61 +87,63 @@ func main() {
 		authHandler := auth.NewHandler(authService)
 		authHandler.RegisterRoutes(api)
 
+		protected := api.Group("", auth.JWTMiddleware(cfg))
+
 		officeService := office.NewService()
 		officeHandler := office.NewHandler(officeService)
-		officeHandler.RegisterRoutes(api)
+		officeHandler.RegisterRoutes(protected)
 
 		permService := permission.NewService()
 		permHandler := permission.NewHandler(permService)
-		permHandler.RegisterRoutes(api)
+		permHandler.RegisterRoutes(protected)
 
 		upService := userpermission.NewService()
 		upHandler := userpermission.NewHandler(upService)
-		upHandler.RegisterRoutes(api)
+		upHandler.RegisterRoutes(protected)
 
 		osSvc := officeservice.NewService()
 		osHandler := officeservice.NewHandler(osSvc)
-		osHandler.RegisterRoutes(api)
+		osHandler.RegisterRoutes(protected)
 
 		ofSvc := officeform.NewService()
 		ofHandler := officeform.NewHandler(ofSvc)
-		ofHandler.RegisterRoutes(api)
+		ofHandler.RegisterRoutes(protected)
 
 		notarySvc := notary.NewService()
 		notaryHandler := notary.NewHandler(notarySvc)
-		notaryHandler.RegisterRoutes(api)
+		notaryHandler.RegisterRoutes(protected)
 
 		agreementSvc := agreement.NewService()
 		agreementHandler := agreement.NewHandler(agreementSvc)
-		agreementHandler.RegisterRoutes(api)
+		agreementHandler.RegisterRoutes(protected)
 
 		nlaSvc := nlafile.NewService()
 		nlaHandler := nlafile.NewHandler(nlaSvc)
-		nlaHandler.RegisterRoutes(api)
+		nlaHandler.RegisterRoutes(protected)
 
 		invoiceSvc := invoice.NewService()
 		invoiceHandler := invoice.NewHandler(invoiceSvc)
-		invoiceHandler.RegisterRoutes(api)
+		invoiceHandler.RegisterRoutes(protected)
 
 		appFeatureSvc := appfeature.NewService()
 		appFeatureHandler := appfeature.NewHandler(appFeatureSvc)
-		appFeatureHandler.RegisterRoutes(api)
+		appFeatureHandler.RegisterRoutes(protected)
 
 		officeFeatureSvc := officefeature.NewService()
 		officeFeatureHandler := officefeature.NewHandler(officeFeatureSvc)
-		officeFeatureHandler.RegisterRoutes(api)
+		officeFeatureHandler.RegisterRoutes(protected)
 
 		officePaymentSvc := officepayment.NewService()
 		officePaymentHandler := officepayment.NewHandler(officePaymentSvc)
-		officePaymentHandler.RegisterRoutes(api)
+		officePaymentHandler.RegisterRoutes(protected)
 
 		nlaChecklistSvc := nlachecklist.NewService()
 		nlaChecklistHandler := nlachecklist.NewHandler(nlaChecklistSvc)
-		nlaChecklistHandler.RegisterRoutes(api)
+		nlaChecklistHandler.RegisterRoutes(protected)
 
 		checklistNoteSvc := checklistnote.NewService()
 		checklistNoteHandler := checklistnote.NewHandler(checklistNoteSvc)
-		checklistNoteHandler.RegisterRoutes(api)
+		checklistNoteHandler.RegisterRoutes(protected)
 	}
 
 	log.Printf("Server starting on port %s", cfg.Port)
