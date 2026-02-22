@@ -6,7 +6,9 @@ app_name = "nfs-api"
 
 app {
 
-  env = {}
+  env = {
+    APP_ENV = "production"
+  }
 
   port = 5002
 
