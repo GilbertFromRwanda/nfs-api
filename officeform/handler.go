@@ -26,6 +26,7 @@ func NewHandler(service *Service) *Handler {
 // @Success      201   {object}  utils.APIResponse{data=OfficeForm}
 // @Failure      400   {object}  utils.APIResponse
 // @Router       /api/v1/office-forms [post]
+// @Security BearerAuth
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -51,6 +52,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/office-forms [get]
+// @Security BearerAuth
 func (h *Handler) GetAll(c *gin.Context) {
 	var p utils.PaginationRequest
 	if err := c.ShouldBindQuery(&p); err != nil {
@@ -75,6 +77,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Success      200       {object}  utils.APIResponse{data=[]OfficeForm}
 // @Failure      400       {object}  utils.APIResponse
 // @Router       /api/v1/office-forms/office/{officeId} [get]
+// @Security BearerAuth
 func (h *Handler) GetByOfficeID(c *gin.Context) {
 	officeID, err := strconv.ParseUint(c.Param("officeId"), 10, 32)
 	if err != nil {
@@ -100,6 +103,7 @@ func (h *Handler) GetByOfficeID(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/office-forms/{id} [get]
+// @Security BearerAuth
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -126,6 +130,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Success      200   {object}  utils.APIResponse{data=OfficeForm}
 // @Failure      400   {object}  utils.APIResponse
 // @Router       /api/v1/office-forms/{id} [put]
+// @Security BearerAuth
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -157,6 +162,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/office-forms/{id} [delete]
+// @Security BearerAuth
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

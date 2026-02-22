@@ -1168,6 +1168,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all agreements
       tags:
       - Agreements
@@ -1197,6 +1199,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new agreement
       tags:
       - Agreements
@@ -1223,6 +1227,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an agreement
       tags:
       - Agreements
@@ -1253,6 +1259,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get agreement by ID
       tags:
       - Agreements
@@ -1287,6 +1295,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an agreement
       tags:
       - Agreements
@@ -1319,6 +1329,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all app features
       tags:
       - App Features
@@ -1348,6 +1360,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new app feature
       tags:
       - App Features
@@ -1374,6 +1388,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an app feature
       tags:
       - App Features
@@ -1404,6 +1420,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get app feature by ID
       tags:
       - App Features
@@ -1438,6 +1456,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an app feature
       tags:
       - App Features
@@ -1542,6 +1562,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all checklist notes
       tags:
       - Checklist Notes
@@ -1571,6 +1593,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new checklist note
       tags:
       - Checklist Notes
@@ -1597,6 +1621,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete a checklist note
       tags:
       - Checklist Notes
@@ -1627,6 +1653,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get checklist note by ID
       tags:
       - Checklist Notes
@@ -1661,6 +1689,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update a checklist note
       tags:
       - Checklist Notes
@@ -1721,6 +1751,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all invoices
       tags:
       - Invoices
@@ -1754,6 +1786,8 @@ paths:
           description: Unauthorized
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new invoice
       tags:
       - Invoices
@@ -1780,6 +1814,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an invoice
       tags:
       - Invoices
@@ -1810,6 +1846,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get invoice by ID
       tags:
       - Invoices
@@ -1844,6 +1882,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an invoice
       tags:
       - Invoices
@@ -1884,6 +1924,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update invoice service payment status
       tags:
       - Invoices
@@ -1938,6 +1980,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get invoice summaries grouped by user
       tags:
       - Invoices
@@ -1990,6 +2034,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all NLA checklists
       tags:
       - NLA Checklists
@@ -2023,6 +2069,8 @@ paths:
           description: Unauthorized
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new NLA checklist
       tags:
       - NLA Checklists
@@ -2049,6 +2097,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an NLA checklist
       tags:
       - NLA Checklists
@@ -2079,6 +2129,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get NLA checklist by ID
       tags:
       - NLA Checklists
@@ -2113,6 +2165,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an NLA checklist
       tags:
       - NLA Checklists
@@ -2169,6 +2223,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all NLA files
       tags:
       - NLA Files
@@ -2202,6 +2258,8 @@ paths:
           description: Unauthorized
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new NLA file
       tags:
       - NLA Files
@@ -2228,6 +2286,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an NLA file
       tags:
       - NLA Files
@@ -2258,6 +2318,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get NLA file by ID
       tags:
       - NLA Files
@@ -2292,6 +2354,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an NLA file
       tags:
       - NLA Files
@@ -2319,6 +2383,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Approve an NLA file
       tags:
       - NLA Files
@@ -2346,6 +2412,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Move NLA file to next status
       tags:
       - NLA Files
@@ -2373,6 +2441,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Reject an NLA file
       tags:
       - NLA Files
@@ -2396,6 +2466,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get NLA file status counts
       tags:
       - NLA Files
@@ -2428,6 +2500,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all notaries
       tags:
       - Notaries
@@ -2457,6 +2531,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new notary
       tags:
       - Notaries
@@ -2483,6 +2559,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete a notary
       tags:
       - Notaries
@@ -2513,6 +2591,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get notary by ID
       tags:
       - Notaries
@@ -2547,6 +2627,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update a notary
       tags:
       - Notaries
@@ -2576,6 +2658,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get notaries by office ID
       tags:
       - Notaries
@@ -2605,6 +2689,8 @@ paths:
           description: Conflict
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Assign features to an office
       tags:
       - Office Features
@@ -2634,6 +2720,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get features assigned to an office
       tags:
       - Office Features
@@ -2663,6 +2751,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Revoke features from an office
       tags:
       - Office Features
@@ -2695,6 +2785,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all office forms
       tags:
       - Office Forms
@@ -2724,6 +2816,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new office form
       tags:
       - Office Forms
@@ -2750,6 +2844,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an office form
       tags:
       - Office Forms
@@ -2780,6 +2876,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office form by ID
       tags:
       - Office Forms
@@ -2814,6 +2912,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an office form
       tags:
       - Office Forms
@@ -2843,6 +2943,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office forms by office ID
       tags:
       - Office Forms
@@ -2887,6 +2989,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all office payments
       tags:
       - Office Payments
@@ -2916,6 +3020,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new office payment
       tags:
       - Office Payments
@@ -2942,6 +3048,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an office payment
       tags:
       - Office Payments
@@ -2972,6 +3080,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office payment by ID
       tags:
       - Office Payments
@@ -3006,6 +3116,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an office payment
       tags:
       - Office Payments
@@ -3038,6 +3150,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all office services
       tags:
       - Office Services
@@ -3067,6 +3181,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new office service
       tags:
       - Office Services
@@ -3093,6 +3209,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an office service
       tags:
       - Office Services
@@ -3123,6 +3241,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office service by ID
       tags:
       - Office Services
@@ -3157,6 +3277,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an office service
       tags:
       - Office Services
@@ -3186,6 +3308,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office services by office ID
       tags:
       - Office Services
@@ -3218,6 +3342,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all offices
       tags:
       - Offices
@@ -3247,6 +3373,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new office
       tags:
       - Offices
@@ -3273,6 +3401,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete an office
       tags:
       - Offices
@@ -3303,6 +3433,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get office by ID
       tags:
       - Offices
@@ -3337,6 +3469,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update an office
       tags:
       - Offices
@@ -3369,6 +3503,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: List all permissions
       tags:
       - Permissions
@@ -3398,6 +3534,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Create a new permission
       tags:
       - Permissions
@@ -3424,6 +3562,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Delete a permission
       tags:
       - Permissions
@@ -3454,6 +3594,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get permission by ID
       tags:
       - Permissions
@@ -3488,6 +3630,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Update a permission
       tags:
       - Permissions
@@ -3522,6 +3666,8 @@ paths:
           description: Conflict
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Assign a permission to a user
       tags:
       - User Permissions
@@ -3548,6 +3694,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Revoke a user permission
       tags:
       - User Permissions
@@ -3577,6 +3725,8 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Get permissions by user ID
       tags:
       - User Permissions
@@ -3616,6 +3766,8 @@ paths:
           description: Conflict
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Assign multiple permissions to a user
       tags:
       - User Permissions
@@ -3655,6 +3807,8 @@ paths:
           description: Not Found
           schema:
             $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
       summary: Revoke multiple permissions from a user
       tags:
       - User Permissions

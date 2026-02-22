@@ -27,6 +27,7 @@ func NewHandler(service *Service) *Handler {
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      409   {object}  utils.APIResponse
 // @Router       /api/v1/office-features/assign [post]
+// @Security BearerAuth
 func (h *Handler) Assign(c *gin.Context) {
 	var req AssignRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -52,6 +53,7 @@ func (h *Handler) Assign(c *gin.Context) {
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      404   {object}  utils.APIResponse
 // @Router       /api/v1/office-features/revoke [delete]
+// @Security BearerAuth
 func (h *Handler) Revoke(c *gin.Context) {
 	var req RevokeRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -75,6 +77,7 @@ func (h *Handler) Revoke(c *gin.Context) {
 // @Success      200       {object}  utils.APIResponse{data=[]OfficeFeatureResponse}
 // @Failure      400       {object}  utils.APIResponse
 // @Router       /api/v1/office-features/office/{officeId} [get]
+// @Security BearerAuth
 func (h *Handler) GetByOfficeID(c *gin.Context) {
 	officeID, err := strconv.ParseUint(c.Param("officeId"), 10, 32)
 	if err != nil {

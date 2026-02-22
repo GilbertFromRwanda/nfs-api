@@ -1,6 +1,8 @@
 package auth
 
 import (
+	"errors"
+	"log"
 	"net/http"
 	"strings"
 
@@ -12,10 +14,29 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+// jwtErrorMessage maps jwt/v5 sentinel errors to human-readable messages.
+func jwtErrorMessage(err error) string {
+	switch {
+	case errors.Is(err, jwt.ErrTokenExpired):
+		return "token has expired, please log in again"
+	case errors.Is(err, jwt.ErrTokenSignatureInvalid):
+		return "token signature is invalid"
+	case errors.Is(err, jwt.ErrTokenMalformed):
+		return "token is malformed"
+	case errors.Is(err, jwt.ErrTokenNotValidYet):
+		return "token is not valid yet"
+	default:
+		return "invalid or expired token"
+	}
+}
+
 func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		ip := c.ClientIP()
+
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
+			log.Printf("[AUTH] 401 missing Authorization header | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "authorization header required")
 			c.Abort()
 			return
@@ -23,7 +44,15 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 		parts := strings.SplitN(authHeader, " ", 2)
 		if len(parts) != 2 || parts[0] != "Bearer" {
+			log.Printf("[AUTH] 401 invalid format (got %q) | ip=%s path=%s", parts[0], ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid authorization format")
+			c.Abort()
+			return
+		}
+
+		if IsBlacklisted(parts[1]) {
+			log.Printf("[AUTH] 401 token has been revoked | ip=%s path=%s", ip, c.FullPath())
+			utils.Error(c, http.StatusUnauthorized, "token has been revoked, please log in again")
 			c.Abort()
 			return
 		}
@@ -36,13 +65,16 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			utils.Error(c, http.StatusUnauthorized, "invalid or expired token")
+			msg := jwtErrorMessage(err)
+			log.Printf("[AUTH] 401 %s | ip=%s path=%s err=%v", msg, ip, c.FullPath(), err)
+			utils.Error(c, http.StatusUnauthorized, msg)
 			c.Abort()
 			return
 		}
 
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
+			log.Printf("[AUTH] 401 invalid token claims | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid token claims")
 			c.Abort()
 			return
@@ -50,6 +82,7 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 
 		userID, ok := claims["user_id"].(float64)
 		if !ok {
+			log.Printf("[AUTH] 401 invalid user_id claim | ip=%s path=%s", ip, c.FullPath())
 			utils.Error(c, http.StatusUnauthorized, "invalid user id in token")
 			c.Abort()
 			return

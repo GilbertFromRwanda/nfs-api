@@ -27,6 +27,7 @@ func NewHandler(service *Service) *Handler {
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
 // @Router       /api/v1/nla-checklists [post]
+// @Security BearerAuth
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -68,6 +69,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-checklists [get]
+// @Security BearerAuth
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -97,6 +99,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/nla-checklists/{id} [get]
+// @Security BearerAuth
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -123,6 +126,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Success      200   {object}  utils.APIResponse{data=NlaChecklist}
 // @Failure      400   {object}  utils.APIResponse
 // @Router       /api/v1/nla-checklists/{id} [put]
+// @Security BearerAuth
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -154,6 +158,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/nla-checklists/{id} [delete]
+// @Security BearerAuth
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

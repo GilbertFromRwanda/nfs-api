@@ -27,6 +27,7 @@ func NewHandler(service *Service) *Handler {
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      401   {object}  utils.APIResponse
 // @Router       /api/v1/nla-files [post]
+// @Security BearerAuth
 func (h *Handler) Create(c *gin.Context) {
 	var req CreateRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -64,6 +65,7 @@ func (h *Handler) Create(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=utils.PaginatedResponse}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files [get]
+// @Security BearerAuth
 func (h *Handler) GetAll(c *gin.Context) {
 	var filter FilterRequest
 	if err := c.ShouldBindQuery(&filter); err != nil {
@@ -89,6 +91,7 @@ func (h *Handler) GetAll(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id} [get]
+// @Security BearerAuth
 func (h *Handler) GetByID(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -115,6 +118,7 @@ func (h *Handler) GetByID(c *gin.Context) {
 // @Success      200   {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400   {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id} [put]
+// @Security BearerAuth
 func (h *Handler) Update(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -146,6 +150,7 @@ func (h *Handler) Update(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id} [delete]
+// @Security BearerAuth
 func (h *Handler) Delete(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -169,6 +174,7 @@ func (h *Handler) Delete(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id}/next [patch]
+// @Security BearerAuth
 func (h *Handler) MoveToNext(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -193,6 +199,7 @@ func (h *Handler) MoveToNext(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id}/approve [patch]
+// @Security BearerAuth
 func (h *Handler) Approve(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -217,6 +224,7 @@ func (h *Handler) Approve(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=NlaFile}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/{id}/reject [patch]
+// @Security BearerAuth
 func (h *Handler) Reject(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -240,6 +248,7 @@ func (h *Handler) Reject(c *gin.Context) {
 // @Success      200  {object}  utils.APIResponse{data=[]StatusCount}
 // @Failure      400  {object}  utils.APIResponse
 // @Router       /api/v1/nla-files/counts [get]
+// @Security BearerAuth
 func (h *Handler) GetStatusCounts(c *gin.Context) {
 	counts, err := h.service.GetStatusCounts()
 	if err != nil {

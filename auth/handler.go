@@ -3,10 +3,13 @@ package auth
 import (
 	"net/http"
 	"strconv"
+	"strings"
+	"time"
 
 	"nfs-api/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type Handler struct {
@@ -207,6 +210,43 @@ func (h *Handler) ResetPassword(c *gin.Context) {
 	utils.Success(c, http.StatusOK, gin.H{"message": "password reset successfully"})
 }
 
+// Logout godoc
+// @Summary      Logout (revoke token)
+// @Tags         Auth
+// @Produce      json
+// @Security     BearerAuth
+// @Success      200  {object}  utils.APIResponse
+// @Failure      401  {object}  utils.APIResponse
+// @Router       /api/v1/auth/logout [post]
+func (h *Handler) Logout(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	parts := strings.SplitN(authHeader, " ", 2)
+	if len(parts) != 2 || parts[0] != "Bearer" {
+		utils.Error(c, http.StatusUnauthorized, "invalid authorization format")
+		return
+	}
+
+	tokenStr := parts[1]
+
+	// Parse token to get expiration time for blacklist cleanup
+	token, _, err := jwt.NewParser().ParseUnverified(tokenStr, jwt.MapClaims{})
+	if err != nil {
+		utils.Error(c, http.StatusUnauthorized, "invalid token")
+		return
+	}
+
+	expAt := time.Now().Add(24 * time.Hour) // default fallback
+	if claims, ok := token.Claims.(jwt.MapClaims); ok {
+		if exp, ok := claims["exp"].(float64); ok {
+			expAt = time.Unix(int64(exp), 0)
+		}
+	}
+
+	BlacklistToken(tokenStr, expAt)
+
+	utils.Success(c, http.StatusOK, gin.H{"message": "logged out successfully"})
+}
+
 func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 	r.POST("/auth/register", h.Register)
 	r.POST("/auth/login", h.Login)
@@ -219,4 +259,8 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 		users.DELETE("/:id", h.Delete)
 		users.PATCH("/:id/reset-password", h.ResetPassword)
 	}
+}
+
+func (h *Handler) RegisterProtectedRoutes(r *gin.RouterGroup) {
+	r.POST("/auth/logout", h.Logout)
 }
