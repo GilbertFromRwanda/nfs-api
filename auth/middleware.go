@@ -50,6 +50,13 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 			return
 		}
 
+		if IsBlacklisted(parts[1]) {
+			log.Printf("[AUTH] 401 token has been revoked | ip=%s path=%s", ip, c.FullPath())
+			utils.Error(c, http.StatusUnauthorized, "token has been revoked, please log in again")
+			c.Abort()
+			return
+		}
+
 		token, err := jwt.Parse(parts[1], func(t *jwt.Token) (interface{}, error) {
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, jwt.ErrSignatureInvalid

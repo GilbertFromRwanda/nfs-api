@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"nfs-api/agreement"
 	"nfs-api/appfeature"
@@ -63,6 +64,9 @@ func main() {
 		&checklistnote.ChecklistNote{},
 	)
 
+	// Clean up expired tokens from blacklist every hour
+	auth.CleanupBlacklist(1 * time.Hour)
+
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
@@ -88,6 +92,7 @@ func main() {
 		authHandler.RegisterRoutes(api)
 
 		protected := api.Group("", auth.JWTMiddleware(cfg))
+		authHandler.RegisterProtectedRoutes(protected)
 
 		officeService := office.NewService()
 		officeHandler := office.NewHandler(officeService)
