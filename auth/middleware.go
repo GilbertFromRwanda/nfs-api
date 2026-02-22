@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
@@ -11,6 +12,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
+
+// jwtErrorMessage maps jwt/v5 sentinel errors to human-readable messages.
+func jwtErrorMessage(err error) string {
+	switch {
+	case errors.Is(err, jwt.ErrTokenExpired):
+		return "token has expired, please log in again"
+	case errors.Is(err, jwt.ErrTokenSignatureInvalid):
+		return "token signature is invalid"
+	case errors.Is(err, jwt.ErrTokenMalformed):
+		return "token is malformed"
+	case errors.Is(err, jwt.ErrTokenNotValidYet):
+		return "token is not valid yet"
+	default:
+		return "invalid or expired token"
+	}
+}
 
 func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -36,7 +53,7 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			utils.Error(c, http.StatusUnauthorized, "invalid or expired token")
+			utils.Error(c, http.StatusUnauthorized, jwtErrorMessage(err))
 			c.Abort()
 			return
 		}
