@@ -1495,6 +1495,24 @@ paths:
       summary: Login
       tags:
       - Auth
+  /api/v1/auth/logout:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Logout (revoke token)
+      tags:
+      - Auth
   /api/v1/auth/register:
     post:
       consumes:
