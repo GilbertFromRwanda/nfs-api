@@ -27,6 +27,7 @@ func NewHandler(service *Service) *Handler {
 // @Failure      400   {object}  utils.APIResponse
 // @Failure      409   {object}  utils.APIResponse
 // @Router       /api/v1/user-permissions [post]
+// @Security BearerAuth
 func (h *Handler) Assign(c *gin.Context) {
 	var req AssignRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -51,6 +52,7 @@ func (h *Handler) Assign(c *gin.Context) {
 // @Success      200     {object}  utils.APIResponse{data=[]UserPermissionResponse}
 // @Failure      400     {object}  utils.APIResponse
 // @Router       /api/v1/user-permissions/user/{userId} [get]
+// @Security BearerAuth
 func (h *Handler) GetByUserID(c *gin.Context) {
 	userID, err := strconv.ParseUint(c.Param("userId"), 10, 32)
 	if err != nil {
@@ -76,6 +78,7 @@ func (h *Handler) GetByUserID(c *gin.Context) {
 // @Failure      400  {object}  utils.APIResponse
 // @Failure      404  {object}  utils.APIResponse
 // @Router       /api/v1/user-permissions/{id} [delete]
+// @Security BearerAuth
 func (h *Handler) Revoke(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -102,6 +105,7 @@ func (h *Handler) Revoke(c *gin.Context) {
 // @Failure      400     {object}  utils.APIResponse
 // @Failure      404     {object}  utils.APIResponse
 // @Router       /api/v1/user-permissions/user/{userId}/revoke-many [delete]
+// @Security BearerAuth
 func (h *Handler) RevokeMany(c *gin.Context) {
 	userID, err := strconv.ParseUint(c.Param("userId"), 10, 32)
 	if err != nil {
@@ -137,6 +141,7 @@ func (h *Handler) RevokeMany(c *gin.Context) {
 // @Failure      400     {object}  utils.APIResponse
 // @Failure      409     {object}  utils.APIResponse
 // @Router       /api/v1/user-permissions/user/{userId}/assign-many [post]
+// @Security BearerAuth
 func (h *Handler) AssignMany(c *gin.Context) {
 	userID, err := strconv.ParseUint(c.Param("userId"), 10, 32)
 	if err != nil {
