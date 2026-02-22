@@ -9,7 +9,7 @@ import (
 	"nfs-api/checklistnote"
 	"nfs-api/config"
 	"nfs-api/database"
-	_ "nfs-api/docs"
+	"nfs-api/docs"
 	"nfs-api/invoice"
 	"nfs-api/nlachecklist"
 	"nfs-api/nlafile"
@@ -69,6 +69,7 @@ func main() {
 	})
 
 	if cfg.AppEnv != "production" {
+		docs.SwaggerInfo.Host = "nfs-api-dev.andasy.dev"
 		r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
