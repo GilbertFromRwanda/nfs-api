@@ -23,7 +23,6 @@ import (
 	"nfs-api/permission"
 	"nfs-api/userpermission"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -69,17 +68,21 @@ func main() {
 
 	r := gin.Default()
 
-	corsConfig := cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		AllowCredentials: true,
-	}
-	if len(cfg.AllowedOrigins) == 1 && cfg.AllowedOrigins[0] == "*" {
-		corsConfig.AllowOriginFunc = func(origin string) bool { return true }
-	} else {
-		corsConfig.AllowOrigins = cfg.AllowedOrigins
-	}
-	r.Use(cors.New(corsConfig))
+	r.Use(func(c *gin.Context) {
+		origin := c.Request.Header.Get("Origin")
+		if origin == "" {
+			origin = "*"
+		}
+		c.Header("Access-Control-Allow-Origin", origin)
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+		c.Header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization")
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+		c.Next()
+	})
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "Connected"})
