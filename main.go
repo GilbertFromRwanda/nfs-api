@@ -70,7 +70,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://nfs.andasy.dev"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://nfs.andasy.dev", "https://nfs-share.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
