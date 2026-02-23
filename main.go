@@ -70,14 +70,14 @@ func main() {
 	r := gin.Default()
 
 	corsConfig := cors.Config{
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
-		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
 	}
 	if len(cfg.AllowedOrigins) == 1 && cfg.AllowedOrigins[0] == "*" {
-		corsConfig.AllowAllOrigins = true
+		corsConfig.AllowOriginFunc = func(origin string) bool { return true }
 	} else {
 		corsConfig.AllowOrigins = cfg.AllowedOrigins
-		corsConfig.AllowCredentials = true
 	}
 	r.Use(cors.New(corsConfig))
 
