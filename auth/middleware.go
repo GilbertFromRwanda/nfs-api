@@ -32,6 +32,15 @@ func jwtErrorMessage(err error) string {
 
 func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// Skip JWT validation for CORS preflight requests.
+		// Browsers send an OPTIONS request with no Authorization header before
+		// every non-simple request (PUT, POST, DELETE, PATCH). Without this
+		// skip those methods are blocked before CORS headers can be returned.
+		if c.Request.Method == "OPTIONS" {
+			c.Next()
+			return
+		}
+
 		ip := c.ClientIP()
 
 		authHeader := c.GetHeader("Authorization")
