@@ -3,6 +3,7 @@ package scanner
 type EnrollRequest struct {
 	Name                string `json:"name" binding:"required,max=200"`
 	Nid                 string `json:"nid" binding:"required,max=50"`
+	Phone               string `json:"phone" binding:"omitempty,max=20"`
 	ServiceID           uint   `json:"service_id" binding:"required"`
 	Service             string `json:"service" binding:"required,max=200"`
 	FingerprintTemplate string `json:"fingerprint_template" binding:"required"`

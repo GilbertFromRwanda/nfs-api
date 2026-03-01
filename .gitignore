@@ -29,9 +29,9 @@ go.work
 go.work.sum
 
 # env file
-.env
 .env-pro
 
 # Editor/IDE
 # .idea/
-# .vscode/
+config.bat
+node_modules
