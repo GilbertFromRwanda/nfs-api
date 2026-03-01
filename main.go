@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"nfs-api/agreement"
+	"nfs-api/dashboard"
 	"nfs-api/appfeature"
 	"nfs-api/auth"
 	"nfs-api/checklistnote"
@@ -21,6 +22,7 @@ import (
 	"nfs-api/officepayment"
 	"nfs-api/officeservice"
 	"nfs-api/permission"
+	"nfs-api/scanner"
 	"nfs-api/userpermission"
 
 	"github.com/gin-gonic/gin"
@@ -61,6 +63,8 @@ func main() {
 		&nlachecklist.NlaChecklist{},
 		&nlachecklist.ChecklistDossier{},
 		&checklistnote.ChecklistNote{},
+		&scanner.ScannerClient{},
+		&agreement.AgreementClient{},
 	)
 
 	// Clean up expired tokens from blacklist every hour
@@ -103,6 +107,10 @@ func main() {
 
 		protected := api.Group("", auth.JWTMiddleware(cfg))
 		authHandler.RegisterProtectedRoutes(protected)
+
+		// office_admin only: invite staff into their own office
+		officeAdminRoutes := api.Group("", auth.JWTMiddleware(cfg), auth.RoleRequired("office_admin"))
+		officeAdminRoutes.POST("/auth/invite-staff", authHandler.InviteStaff)
 
 		officeService := office.NewService()
 		officeHandler := office.NewHandler(officeService)
@@ -159,6 +167,14 @@ func main() {
 		checklistNoteSvc := checklistnote.NewService()
 		checklistNoteHandler := checklistnote.NewHandler(checklistNoteSvc)
 		checklistNoteHandler.RegisterRoutes(protected)
+
+		scannerSvc := scanner.NewService()
+		scannerHandler := scanner.NewHandler(scannerSvc)
+		scannerHandler.RegisterRoutes(protected)
+
+		dashboardSvc := dashboard.NewService()
+		dashboardHandler := dashboard.NewHandler(dashboardSvc)
+		dashboardHandler.RegisterRoutes(protected)
 	}
 
 	log.Printf("Server starting on port %s", cfg.Port)

@@ -1,0 +1,67 @@
+name: Database Backup
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2:00 AM UTC
+  workflow_dispatch:      # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  backup:
+    name: Backup Production DB to R2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install postgresql-client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client
+
+      - name: Install rclone
+        run: curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone for Cloudflare R2
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret_access_key = ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          endpoint = ${{ secrets.R2_ENDPOINT }}
+          EOF
+
+      - name: Run pg_dump and compress
+        env:
+          PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          FILENAME="nfs-api-backup-${TIMESTAMP}.sql.gz"
+          pg_dump \
+            -h ${{ secrets.DB_HOST }} \
+            -p 5432 \
+            -U ${{ secrets.DB_USER }} \
+            -d ${{ secrets.DB_NAME }} \
+            --no-password \
+            | gzip > "${FILENAME}"
+          echo "BACKUP_FILE=${FILENAME}" >> $GITHUB_ENV
+          echo "Backup created: ${FILENAME} ($(du -sh ${FILENAME} | cut -f1))"
+
+      - name: Upload to Cloudflare R2
+        run: |
+          rclone copy "${BACKUP_FILE}" r2:${{ secrets.R2_BUCKET }}/
+          echo "Uploaded: ${BACKUP_FILE}"
+
+      - name: Cleanup old backups (keep last 30)
+        run: |
+          COUNT=$(rclone ls r2:${{ secrets.R2_BUCKET }}/ | wc -l)
+          if [ "$COUNT" -gt 30 ]; then
+            rclone ls r2:${{ secrets.R2_BUCKET }}/ \
+              | sort -k2 \
+              | head -n -30 \
+              | awk '{print $2}' \
+              | xargs -I{} rclone deletefile r2:${{ secrets.R2_BUCKET }}/{}
+            echo "Cleaned up old backups (kept last 30)"
+          else
+            echo "No cleanup needed ($COUNT backups stored)"
+          fi

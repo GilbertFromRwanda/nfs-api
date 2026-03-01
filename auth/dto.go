@@ -10,6 +10,16 @@ type RegisterRequest struct {
 	Status    string  `json:"status" binding:"omitempty,oneof=active inactive"`
 }
 
+// InviteStaffRequest is used by office_admin to create employee accounts in their office.
+// office_id is injected from JWT — not accepted from body.
+type InviteStaffRequest struct {
+	FirstName string `json:"first_name" binding:"required,min=2,max=100"`
+	LastName  string `json:"last_name" binding:"required,min=2,max=100"`
+	Username  string `json:"username" binding:"required,min=3,max=100"`
+	Password  string `json:"password" binding:"required,min=6"`
+	Role      string `json:"role" binding:"omitempty,max=50"` // e.g. "secretary", "notary" — flexible
+}
+
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
@@ -35,11 +45,12 @@ type AuthResponse struct {
 }
 
 type UserInfo struct {
-	ID        uint    `json:"id"`
-	FirstName string  `json:"first_name"`
-	LastName  string  `json:"last_name"`
-	Username  string  `json:"username"`
-	OfficeID  *uint   `json:"office_id"`
-	Role      *string `json:"role"`
-	Status    string  `json:"status"`
+	ID         uint    `json:"id"`
+	FirstName  string  `json:"first_name"`
+	LastName   string  `json:"last_name"`
+	Username   string  `json:"username"`
+	OfficeID   *uint   `json:"office_id"`
+	OfficeName string  `json:"office_name"`
+	Role       *string `json:"role"`
+	Status     string  `json:"status"`
 }
