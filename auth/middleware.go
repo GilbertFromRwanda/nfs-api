@@ -105,7 +105,37 @@ func JWTMiddleware(cfg *config.Config) gin.HandlerFunc {
 		if officeName, ok := claims["office_name"].(string); ok {
 			c.Set("office_name", officeName)
 		}
+		if role, ok := claims["role"].(string); ok {
+			c.Set("role", role)
+		}
 
+		c.Next()
+	}
+}
+
+// RoleRequired checks that the authenticated user has one of the allowed roles.
+// Must be used after JWTMiddleware.
+// Usage:
+//
+//	router.POST("/route", auth.JWTMiddleware(cfg), auth.RoleRequired("super_admin"), handler)
+//	router.POST("/route", auth.JWTMiddleware(cfg), auth.RoleRequired("super_admin", "office_admin"), handler)
+func RoleRequired(roles ...string) gin.HandlerFunc {
+	allowed := make(map[string]struct{}, len(roles))
+	for _, r := range roles {
+		allowed[r] = struct{}{}
+	}
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists {
+			utils.Error(c, http.StatusForbidden, "access denied: no role assigned")
+			c.Abort()
+			return
+		}
+		if _, ok := allowed[role.(string)]; !ok {
+			utils.Error(c, http.StatusForbidden, "access denied: insufficient role")
+			c.Abort()
+			return
+		}
 		c.Next()
 	}
 }

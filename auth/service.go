@@ -62,6 +62,41 @@ func (s *Service) Register(req RegisterRequest) (*AuthResponse, error) {
 	}, nil
 }
 
+// InviteStaff creates an employee account under the office_admin's office.
+// officeID is taken from JWT — never from the request body.
+func (s *Service) InviteStaff(req InviteStaffRequest, officeID uint) (*User, error) {
+	var existing User
+	if err := database.DB.Where("username = ?", req.Username).First(&existing).Error; err == nil {
+		return nil, errors.New("username already taken")
+	}
+
+	hashed, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, errors.New("failed to hash password")
+	}
+
+	role := "employee"
+	if req.Role != "" {
+		role = req.Role
+	}
+
+	user := User{
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		Username:  req.Username,
+		Password:  string(hashed),
+		OfficeID:  &officeID,
+		Role:      &role,
+		Status:    "active",
+	}
+
+	if err := database.DB.Create(&user).Error; err != nil {
+		return nil, errors.New("failed to create staff account")
+	}
+
+	return &user, nil
+}
+
 func (s *Service) Login(req LoginRequest) (*AuthResponse, error) {
 	var user User
 	if err := database.DB.Preload("Office").Where("username = ?", req.Username).First(&user).Error; err != nil {
@@ -209,6 +244,10 @@ func (s *Service) generateToken(user User) (string, error) {
 		"iat":     time.Now().Unix(),
 	}
 
+	if user.Role != nil {
+		claims["role"] = *user.Role
+	}
+
 	if user.OfficeID != nil {
 		claims["office_id"] = *user.OfficeID
 		// Load office name if not already preloaded
@@ -227,13 +266,18 @@ func (s *Service) generateToken(user User) (string, error) {
 }
 
 func toUserInfo(user User) UserInfo {
+	officeName := ""
+	if user.Office != nil {
+		officeName = user.Office.Name
+	}
 	return UserInfo{
-		ID:        user.ID,
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
-		Username:  user.Username,
-		OfficeID:  user.OfficeID,
-		Role:      user.Role,
-		Status:    user.Status,
+		ID:         user.ID,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
+		Username:   user.Username,
+		OfficeID:   user.OfficeID,
+		OfficeName: officeName,
+		Role:       user.Role,
+		Status:     user.Status,
 	}
 }
