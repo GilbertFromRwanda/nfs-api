@@ -20,6 +20,7 @@ func (s *Service) Enroll(req EnrollRequest) (*ScannerClient, error) {
 	client := ScannerClient{
 		Name:                req.Name,
 		Nid:                 req.Nid,
+		Phone:               req.Phone,
 		ServiceID:           req.ServiceID,
 		Service:             req.Service,
 		FingerprintTemplate: req.FingerprintTemplate,
