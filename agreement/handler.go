@@ -166,5 +166,10 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 		agreements.GET("/:id", h.GetByID)
 		agreements.PUT("/:id", h.Update)
 		agreements.DELETE("/:id", h.Delete)
+
+		// Agreement clients (multi-party fingerprint linkage)
+		agreements.GET("/:id/clients", h.ListClients)
+		agreements.POST("/:id/clients", h.AddClient)
+		agreements.DELETE("/:id/clients/:linkID", h.RemoveClient)
 	}
 }

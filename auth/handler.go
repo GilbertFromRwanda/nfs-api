@@ -261,6 +261,39 @@ func (h *Handler) RegisterRoutes(r *gin.RouterGroup) {
 	}
 }
 
+// InviteStaff godoc
+// @Summary      Invite a staff member (office_admin only)
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        body  body      InviteStaffRequest  true  "Staff payload"
+// @Success      201   {object}  utils.APIResponse{data=User}
+// @Failure      400   {object}  utils.APIResponse
+// @Failure      403   {object}  utils.APIResponse
+// @Router       /api/v1/auth/invite-staff [post]
+// @Security BearerAuth
+func (h *Handler) InviteStaff(c *gin.Context) {
+	var req InviteStaffRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	officeID, exists := c.Get("office_id")
+	if !exists {
+		utils.Error(c, http.StatusBadRequest, "office not found in token")
+		return
+	}
+
+	user, err := h.service.InviteStaff(req, officeID.(uint))
+	if err != nil {
+		utils.Error(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	utils.Success(c, http.StatusCreated, user)
+}
+
 func (h *Handler) RegisterProtectedRoutes(r *gin.RouterGroup) {
 	r.POST("/auth/logout", h.Logout)
 }
